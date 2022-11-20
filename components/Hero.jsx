@@ -1,9 +1,10 @@
-import React from 'react'
+import React from 'react';
 
 export default function Hero() {
+
   return (
     <>
-      <div class="bg-slate-800 sm:flex justify-center">
+      <div id="homePage" className="bg-slate-800 sm:flex justify-center">
         <header className='px-20 py-20 sm:px-auto sm:py-auto sm:w-auto flex flex-col sm:flex-col justify-center items-center sm:items-start'>
           <h1 className='text-7xl font-semibold sm:py-[0.3rem] relative sm:left-[20%]'>男仕</h1>
           <h1 className='text-7xl font-semibold sm:py-[0.3rem] relative sm:left-[40%]'>精選</h1>
@@ -24,7 +25,7 @@ export default function Hero() {
           <img src="/hero-man.png" alt="man in suit" className='h-[550px] w-auto object-cover sm:object-cover'/>
         </div>
       </div>
-      <div class="h-[150px] sm:h-[100px] items-center grid grid-cols-3 divide-x bg-gradient-to-b from-slate-800 via-neutral-900 to-neutral-900">
+      <div className="h-[150px] sm:h-[100px] items-center grid grid-cols-3 divide-x bg-gradient-to-b from-slate-800 via-neutral-900 to-neutral-900">
         <div className='justify-self-center sm:flex gap-5 sm:items-center'>
           <img src="/delivery-truck-white.png" alt="free shipping on purchase above 700hkd" className='h-[70px]'/>
           <div className='flex flex-col items-center sd:block relative mb-2 sd:mb-0'>
@@ -54,11 +55,3 @@ export default function Hero() {
     </>
   )
 }
-
-
-{/* 
-
-
-
-<div>七天</div>
-<div></div> */}

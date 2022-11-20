@@ -8,7 +8,9 @@ import { Product, Hero, Navbar, Layout, HeroBanner, FooterBanner, Footer, HomePa
 export default function Home() {
   const [component, setComponent] = React.useState(<HomePage />);
 
+  // Make sure window object is the same
   React.useEffect(() => {
+    console.log(window.location.pathname);
     switch (window.location.pathname) {
       case "/":
         setComponent(<HomePage />);
@@ -21,6 +23,9 @@ export default function Home() {
         break;
     }  
   }, [])
+
+  // TODO: Relocate Cart, About, etc from /components to /pages because
+  // that's how routing works
 
 
   return (

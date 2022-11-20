@@ -9,10 +9,10 @@ export default function Footer() {
          flex-col items-center'>
           <div className='pt-8 pb-2 flex justify-evenly gap-6 md:gap-14 lg:gap-20
             xl:gap-24'>
-            <div className=''>推廣代碼</div>
+            <div className="hover:animate-bouncing">推廣代碼</div>
             <Link href="https://github.com/INll">關於我們</Link>
-            <div>工作機會</div>
-            <div>用戸條款</div>
+            <div className="hover:animate-bouncing">工作機會</div>
+            <div className="hover:animate-bouncing">用戸條款</div>
           </div>
           <a href="https://github.com/INll/ecommerce-project" className='pt-8 pb-10'>
             <img src="/github-logo-white.png" alt="github logo" className='h-12 

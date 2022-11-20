@@ -1,7 +1,7 @@
 import React from 'react';
-import Link from 'next/link';
+import { Link } from 'react-scroll';
 
-export default function Navbar() {
+export default function Navbar() {  
   return (
     <div className="relative">
       <nav>
@@ -10,14 +10,28 @@ export default function Navbar() {
           <img src="/ms-logo-white.png" alt="logo" className='object-cover w-24'/>
         </div>
         <ul className='flex justify-evenly'>
-          <li className='hidden sm:block px-4 pb-2 pt-4 transition-all duration-200 border-transparent 
-            border-b-[3px] hover:border-white'>
-            主頁
-          </li>
-          <li className='hidden sm:block px-4 pb-2 pt-4 transition-all duration-200 border-transparent
-            border-b-[3px] hover:border-white'>
-            商品目錄
-          </li>
+          <Link
+            activeClass='active'
+            to='homePage'
+            spy={true}
+            smooth={true}
+            duration={500}>
+            <li className='hidden sm:block px-4 pb-2 pt-4 transition-all duration-200 border-transparent
+              border-b-[3px] hover:border-white cursor-pointer'>
+              主頁
+            </li>
+          </Link>
+          <Link
+            activeClass='active'
+            to='/cart'
+            spy={true}
+            smooth={true}
+            duration={500}>
+            <li className='hidden sm:block px-4 pb-2 pt-4 transition-all duration-200 border-transparent
+              border-b-[3px] hover:border-white'>
+              商品目錄
+            </li>
+          </Link>
           <li className='px-4 pb-2 pt-4 transition-all duration-200 border-transparent border-b-[3px] 
           hover:border-white'>
             聯繫我們
