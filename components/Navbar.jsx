@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from "framer-motion";
 import { Link } from 'react-scroll';
+import LoginModal from './LoginModal/index';
 
-export default function Navbar() {  
+export default function Navbar() {
+  const [modalIsActive, setModalIsActive] = useState(false);
+
+  function handleClick() {
+    alert('You clicked me!');
+  }
+
   return (
     <div className="relative">
       <nav>
@@ -11,6 +19,7 @@ export default function Navbar() {
         </div>
         <ul className='flex justify-evenly'>
           <Link
+            className='hidden sm:block'
             activeClass='active'
             to='homePage'
             spy={true}
@@ -22,6 +31,7 @@ export default function Navbar() {
             </li>
           </Link>
           <Link
+            className='hidden sm:block'
             activeClass='active'
             to='/cart'
             spy={true}
@@ -36,13 +46,21 @@ export default function Navbar() {
           hover:border-white'>
             聯繫我們
           </li>
-          <li className='px-4 pb-2 pt-4 transition-all duration-200 border-transparent border-b-[3px]
-           hover:border-white'>
-            用戶登入
-          </li>
+          <button 
+            className='px-4 pb-2 pt-4 transition-all duration-200 border-transparent border-b-[3px]
+           hover:border-white relative'
+            onClick={() => {setModalIsActive(!modalIsActive);}}
+          >用戶登入
+          </button>
+          <AnimatePresence initial={false}>
+            {modalIsActive && <LoginModal handleClose={() => {
+              return (setModalIsActive(!modalIsActive))
+            }}/>}
+          </AnimatePresence>
         </ul>
       </nav>
       <img src="/shopping-cart-white.png" alt="shopping cart icon" className='absolute h-[50px] top-[5%] right-[0.4rem] transition-translate duration-100 hover:-translate-x-1 px-5 py-2'/>
     </div>
   )
 }
+

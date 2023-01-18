@@ -14,11 +14,13 @@
     "@emotion/styled": "^11.10.5",
     "eslint": "8.27.0",
     "eslint-config-next": "13.0.3",
+    "formik": "^2.2.9",
     "framer-motion": "^6.5.1",
     "next": "13.0.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-scroll": "^1.8.8"
+    "react-scroll": "^1.8.8",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",

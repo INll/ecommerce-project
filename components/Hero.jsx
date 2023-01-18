@@ -21,7 +21,8 @@ export default function Hero() {
               </button>
           </div>
         </header>
-        <div className='absolute hidden sm:block sm:relative w-max sm:w-[450px] flex justify-center'>
+        {/* TODO: Implement a random display of items based on click of refresh button*/}
+        <div className='absolute hidden sm:block sm:relative w-max h-[550px] sm:w-[450px] flex justify-center'>
           <img src="/hero-man.png" alt="man in suit" className='h-[550px] w-auto object-cover sm:object-cover'/>
         </div>
       </div>

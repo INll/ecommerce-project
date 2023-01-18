@@ -1,16 +1,13 @@
-import React from 'react'
+import React from 'react';
+import Navbar from './Navbar';
+import Footer from './Footer';
 
-export default function Layout() {
+export default function Layout({ children }) {
   return (
     <>
-    <div class="grid grid-cols-3 divide-x">
-      <div className='flex justify-center'>
-        <div>01</div>
-      </div>
-      <div className='flex justify-center'>02</div>
-      <div className='flex justify-center'>03</div>
-    </div>
+      <Navbar />
+      <main>{children}</main>
+      <Footer />     
     </>
   )
 }
-// 

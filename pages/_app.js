@@ -1,8 +1,11 @@
 import '../styles/globals.css'
 
+// Component is default export of index.js
 function MyApp({ Component, pageProps }) {
+
+  const getLayout = Component.getLayout || ((page) => page)
   return (
-    <Component {...pageProps} />
+    getLayout(<Component {...pageProps} />)
   )
 }
 

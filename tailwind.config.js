@@ -12,12 +12,12 @@ module.exports = {
           '25%': { transform: 'translateX(0.15rem)' },
           '50%': { transform: 'translateX(-0.15rem)'},
           '75%': { transform: 'translateX(0.15rem)' },
-        }
+        },
       },
       animation: {
-        bouncing: 'bouncing 0.25s 1'
+        bouncing: 'bouncing 0.25s 1',
       }
-    },
   },
   plugins: [],
+  }
 }

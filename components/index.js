@@ -7,3 +7,6 @@ export { default as Footer } from './Footer';
 export { default as Cart } from './Cart';
 export { default as Hero } from './Hero';
 export { default as HomePage } from './HomePage';
+export { default as Backdrop } from './Backdrop/index';
+export { default as LoginModal } from './LoginModal/index';
+export { default as LoginForm } from './LoginForm/index';
