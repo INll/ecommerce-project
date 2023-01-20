@@ -5,10 +5,12 @@ import LoginModal from './LoginModal/index';
 
 export default function Navbar() {
   const [modalIsActive, setModalIsActive] = useState(false);
-
-  function handleClick() {
-    alert('You clicked me!');
-  }
+  const [loginTemp, setLoginTemp] = useState({
+    userName: '',
+    passWord: '',
+    passWordConfirmation: '',
+  });
+  const [isRegistering, setIsRegistering] = useState(false);
 
   return (
     <div className="relative">
@@ -49,13 +51,26 @@ export default function Navbar() {
           <button 
             className='px-4 pb-2 pt-4 transition-all duration-200 border-transparent border-b-[3px]
            hover:border-white relative'
-            onClick={() => {setModalIsActive(!modalIsActive);}}
+            onClick={() => {
+              setModalIsActive(!modalIsActive);
+              // if(modalIsActive) {
+              //   setLoginTemp({
+              //     userName: 
+              //   })
+              // }
+            }}
           >用戶登入
           </button>
           <AnimatePresence initial={false}>
-            {modalIsActive && <LoginModal handleClose={() => {
-              return (setModalIsActive(!modalIsActive))
-            }}/>}
+            {modalIsActive && <LoginModal 
+              handleClose={() => {
+                return (setModalIsActive(!modalIsActive))
+              }}
+              loginTemp={loginTemp}
+              saveLoginInfo={setLoginTemp}
+              isReg={isRegistering}
+              setIsReg={setIsRegistering}
+              />}
           </AnimatePresence>
         </ul>
       </nav>

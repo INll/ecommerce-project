@@ -1,8 +1,7 @@
 import { motion } from "framer-motion";
-import React from 'react';
+import React, { forwardRef } from 'react';
 import Backdrop from '../Backdrop/index';
 import LoginForm from '../LoginForm/index';
-
 
 // Define multiple stages as one 'variant' object
 const dropIn = {
@@ -31,10 +30,13 @@ const dropIn = {
     },
   }
 }
-
-export default function index({ handleClose }) {
+export default function index({ handleClose, loginTemp, saveLoginInfo, isReg, setIsReg}) {
   return (
-  <Backdrop>
+  <Backdrop
+    onClick={handleClose}
+    loginTemp={loginTemp}
+    saveLoginInfo={saveLoginInfo}
+  >
     <motion.div
       onClick={(e) => e.stopPropagation()}
       key='modal'
@@ -45,6 +47,10 @@ export default function index({ handleClose }) {
     >
       <LoginForm
         onClick={handleClose}
+        loginTemp={loginTemp}
+        saveLoginInfo={saveLoginInfo}
+        isReg={isReg}
+        setIsReg={setIsReg}
       />
     </motion.div>
   </Backdrop>
