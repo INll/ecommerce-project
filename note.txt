@@ -1,0 +1,13 @@
+10-2-2023
+
+Today I worked on the next js api route for my login modal. Ideally, once the
+登入 button is clicked, axios sends a POST request to api route ./api/login.js,
+which destructures the request object then queries the mongodb database to check
+if a username is already taken. If not, insertOne().
+
+However, I've been getting 'buffering timed out after 10000ms' error. After some
+research I found out that my api route is not even connected to the db. The 
+mongoose adapter in ./lib/mongoose.js works fine, as shown by printing `mongoose.connection.readyState` inside dbConnect() returns 1, but
+inside returning 1.
+
+The dbConnect() is taken from https://github.com/vercel/next.js/blob/canary/examples/with-mongodb-mongoose/lib/dbConnect.js

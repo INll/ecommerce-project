@@ -37,7 +37,6 @@ export default function Home() {
 
 // Wrap page content with a Layout component
 Home.getLayout = function getLayout(page) {
-  console.log(Layout);
   return (
     <Layout>
       {page}

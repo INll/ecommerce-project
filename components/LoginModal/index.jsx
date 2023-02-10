@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import React, { forwardRef } from 'react';
+import React from 'react';
 import Backdrop from '../Backdrop/index';
 import LoginForm from '../LoginForm/index';
 

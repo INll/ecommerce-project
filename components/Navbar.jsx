@@ -15,7 +15,7 @@ export default function Navbar() {
   return (
     <div className="relative">
       <nav>
-        <div className='flex items-center gap-2 md:gap-4 justify-center w-100% md:pt-3'>
+        <div className="flex items-center justify-center gap-2 md:gap-4 w-100% md:pt-3">
           <div className='text-center w-auto text-xl tracking-widest font-extralight'>MANSWHERE</div>
           <img src="/ms-logo-white.png" alt="logo" className='object-cover w-24'/>
         </div>
@@ -48,7 +48,7 @@ export default function Navbar() {
           hover:border-white'>
             聯繫我們
           </li>
-          <button 
+          <button  q
             className='px-4 pb-2 pt-4 transition-all duration-200 border-transparent border-b-[3px]
            hover:border-white relative'
             onClick={() => {

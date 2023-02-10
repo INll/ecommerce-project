@@ -1,7 +1,9 @@
 import { React, useContext, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import NextAuth, {NextAuthOptions} from "next-auth";
+// import { CredentialsProvider } from "next-auth/providers";
 import * as Yup from 'yup';
-import { LoginFormContext } from "../Contexts/LoginFormContext";
+import axios from "axios";
 
 // Validation protocol for login items
 const loginReqs = {
@@ -37,7 +39,6 @@ const registrationSchema = Yup.object().shape({
   .matches(/[0-9]/, '密碼必須包含至少一個數字')
   .matches(/[a-z]/, '密碼必須包含至少一個細楷英文字母')
   .matches(/[A-Z]/, '密碼必須包含至少一個大楷英文字母')
-  .matches(/^(?=.{8,20}$)(([a-z0-9])\2?(?!\2))+$/, '密碼不得含有連續字符')
   .required('此項不能爲空'),
   passWordConfirmation: Yup.string()
   .min(loginReqs.password.min, `必須多於 ${loginReqs.password.min} 個字符`)
@@ -45,12 +46,14 @@ const registrationSchema = Yup.object().shape({
   .matches(/[0-9]/, '密碼必須包含至少一個數字')
   .matches(/[a-z]/, '密碼必須包含至少一個細楷英文字母')
   .matches(/[A-Z]/, '密碼必須包含至少一個大楷英文字母')
-  .matches(/^(?=.{8,20}$)(([a-z0-9])\2?(?!\2))+$/, '密碼不得含有連續字符')
-  .required('此項不能爲空'), 
+  .required('此項不能爲空')
+  .oneOf([Yup.ref('passWord'), null], '密碼不一致, 請再試一次'),
 })
 
 export default function index({ onClick, loginTemp, saveLoginInfo, isReg, setIsReg }) {
-  // const [isReg, setUserRegister] = useState(false);
+
+  // signin:
+  // {userName: 'asdf', passWord: 'asdfasdfasdf', passWordConfirmation: ''}
 
   return (
     <div>
@@ -61,9 +64,14 @@ export default function index({ onClick, loginTemp, saveLoginInfo, isReg, setIsR
         validateOnChange={false}
         initialValues={loginTemp}
         validationSchema={isReg ? registrationSchema : loginSchema}
-        onSubmit={values => {
-          console.log(values);
-        }}
+        onSubmit={async (value) => {
+          try {
+            const response = await axios.post('/api/login', value);
+            console.log(response.data);
+          } catch (err) {
+            console.log(err);
+          }}
+        }
       >
       {({ errors, touched, values }) => (
         <Form 
