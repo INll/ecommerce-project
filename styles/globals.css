@@ -28,3 +28,7 @@ a {
     background: black;
   }
 }
+
+passwordField::-ms-reveal {
+  display: none;
+}

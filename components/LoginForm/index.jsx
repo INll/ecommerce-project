@@ -50,13 +50,32 @@ const registrationSchema = Yup.object().shape({
   .oneOf([Yup.ref('passWord'), null], '密碼不一致, 請再試一次'),
 })
 
-export default function index({ onClick, loginTemp, saveLoginInfo, isReg, setIsReg }) {
+function handleError (err, res) {
+  console.log(`Error: ${err}`);
+  res.json(err);
+  res.status(405).end();
+}
 
+export default function index({ onClick, loginTemp, saveLoginInfo, isReg, setIsReg }) {
+  // track states of hidden elements
+  const [elementStates, setElementStates] = useState({
+    loginUsernameFailure: false,
+  });
+  const [buttonStates, setButtonStates] = useState({
+    loginSignupButton: false,
+  });
+  const [passwordShown, setPasswordShown] = useState(false);
   // signin:
   // {userName: 'asdf', passWord: 'asdfasdfasdf', passWordConfirmation: ''}
 
+  function showPassword() {
+    setPasswordShown(!passwordShown);
+  }
+
   return (
     <div>
+      {/* css disables edge reveal password icon. its annoying */}
+      <link rel="stylesheet" href="style.css" />  
       {/* Go Backdrop to set Modal horizontal position */}
       <div className='w-[21rem] pt-12 pb-4 min-h-fit rounded-md border-0'>
       <Formik
@@ -65,19 +84,52 @@ export default function index({ onClick, loginTemp, saveLoginInfo, isReg, setIsR
         initialValues={loginTemp}
         validationSchema={isReg ? registrationSchema : loginSchema}
         onSubmit={async (value) => {
-          try {
-            const response = await axios.post('/api/login', value);
-            console.log(response.data);
-          } catch (err) {
-            console.log(err);
-          }}
-        }
+          console.log('clicked');
+          setButtonStates({
+            ...buttonStates,
+            loginSignupButton: true
+          });
+          if (!isReg) {
+            try {
+              const response = await axios.post('/api/login', value);
+              switch (response.data.loginResult){
+                case 0: // username not found, let user signup instead
+                  setIsReg(!isReg);
+                  setElementStates({ 
+                    ...elementStates, 
+                    loginUsernameFailure: true
+                  });
+                  setTimeout(() => {
+                    setElementStates({
+                      ...elementStates,
+                      loginUsernameFailure: false
+                    })
+                  }, 8500);
+                  break;
+                case 1:
+                  
+              }
+            } catch (err) {
+              handleError(err);
+            }
+          } else {
+            try {
+              const response = await axios.post('api/signup.js', value);
+              // THIS IS FOR SIGNUP LOGICS
+            } catch (err) {
+              handleError(err);
+            }
+          }
+          setButtonStates({
+            ...buttonStates,
+            loginSignupButton: false
+          });
+        }}
       >
       {({ errors, touched, values }) => (
         <Form 
           className="flex flex-col w-auto gap-6"
           onKeyUp={() => {
-            console.log('Updating state');
             saveLoginInfo({
             userName: values.userName,
             passWord: values.passWord,
@@ -91,6 +143,12 @@ export default function index({ onClick, loginTemp, saveLoginInfo, isReg, setIsR
               onClick();
             }}
           >x</button>
+          {elementStates.loginUsernameFailure ? (
+            <div className="font-bold text-red-600 text-[0.8rem] left-[7.5rem] top-7 absolute"
+            >用戶不存在，請確認密碼以完成注冊
+            </div>
+          ) : null
+          }
           <div className="flex items-center justify-center gap-4">
             <label htmlFor="username" className="basis-1/5">用戶名稱</label>
             <Field
@@ -100,22 +158,30 @@ export default function index({ onClick, loginTemp, saveLoginInfo, isReg, setIsR
             />
             {errors.userName ? (
               <div
-                className="font-extrabold text-red-600 text-[0.8rem] absolute left-[7.15rem] top-[1.75rem]"
+                className="font-bold text-red-600 text-[0.8rem] absolute left-[7.5rem] top-[1.75rem]"
               >{errors.userName}</div>
              ) : null
             }
           </div>
           <div className="flex items-center justify-center gap-4">
           <label htmlFor="password"  className="basis-1/5">密碼</label>
+          <button 
+            className="absolute h-5 w-5 right-[2.6rem]"
+            onClick={showPassword}
+            type='button'
+          >
+            {passwordShown ? <img src='/hide_pd_white.png'/>
+            : <img src='/view_pd_white.png'/>}
+          </button>
             <Field
-              className="h-8 rounded pl-2"
-              type="password"
+              className="h-8 rounded pl-2 passwordField"
+              type={passwordShown ? 'text' : 'password'}
               id="password"
               name="passWord"
             />
             {errors.passWord ? (
               <div
-                className="font-extrabold text-red-600 text-[0.8rem] absolute left-[7.15rem] top-[5.3rem]"
+                className="font-bold text-red-600 text-[0.8rem] absolute left-[7.5rem] top-[5.3rem]"
               >{errors.passWord}</div>
              ) : null
             }
@@ -123,15 +189,23 @@ export default function index({ onClick, loginTemp, saveLoginInfo, isReg, setIsR
           {isReg ? 
             <div className="flex items-center justify-center gap-4">
             <label htmlFor="passwordConfirmation"  className="basis-1/5">確認密碼</label>
+            <button 
+              className="absolute h-5 w-5 right-[2.6rem]"
+              onClick={showPassword}
+              type='button'
+            >
+              {passwordShown ? <img src='/hide_pd_white.png'/>
+              : <img src='/view_pd_white.png'/>}
+            </button>
               <Field
-                className="h-8 rounded pl-2"
-                type="password"
+                className="h-8 rounded pl-2 passwordField"
+                type={passwordShown ? 'text' : 'password'}
                 id="passwordConfirmation"
                 name="passWordConfirmation"
               />
               {errors.passWordConfirmation ? (
                 <div
-                  className="font-extrabold text-red-600 text-[0.8rem] absolute left-[7.15rem] top-[8.8rem]"
+                  className="font-bold text-red-600 text-[0.8rem] absolute left-[7.5rem] top-[8.8rem]"
                 >{errors.passWordConfirmation}</div>
                 ) : null
               }
@@ -144,8 +218,10 @@ export default function index({ onClick, loginTemp, saveLoginInfo, isReg, setIsR
                 type="submit"
               >注 冊</button> : <button
                 className="mt-4 mb-3 w-1/4 bg-blue-500 hover:bg-blue-700 text-white 
-                font-bold py-2 px-3 rounded"
+                font-bold py-2 px-3 rounded disabled:bg-blue-900
+                disabled:text-slate-400"
                 type="submit"
+                disabled={buttonStates.loginSignupButton}
               >登 入</button>}
             <button 
               className="absolute top-8 right-[4.5rem] underline"
