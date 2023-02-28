@@ -1,18 +1,17 @@
 import * as React from 'react';
-import { HomePage } from '../components';
+import ProfilePage from '../components/ProfilePage';
 import Layout from '../components/Layout';
 
-
-export default function Home() {
+export default function Profile() {
   return (
     <>
-      <HomePage />
+      <ProfilePage />
     </>
   )
 }
 
 // <Layout> defines what layout to use with this page
-Home.getLayout = function getLayout(page) {
+Profile.getLayout = function getLayout(page) {
   return (
     <Layout>
       {page}

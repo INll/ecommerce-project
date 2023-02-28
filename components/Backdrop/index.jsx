@@ -1,17 +1,22 @@
 import { motion } from "framer-motion";
 import { React, useEffect, useContext } from 'react';
-import { LoginFormContext } from '../Contexts/LoginFormContext';
 
-export default function backdrop({ onClick, children, loginTemp, saveLoginInfo }) {
+export default function backdrop({ onClick, children }) {
+
+  function handleEscape(e) {
+    if (e.key === 'Escape') {
+      onClick();
+    }
+  };
 
   // Detect global keypress events and toggled off modal if active
   useEffect(() => {
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        onClick();
-      }
-    } , true)
+    window.addEventListener('keydown', handleEscape, []);
+    return () => {
+      window.removeEventListener('keydown', handleEscape, []);
+    }
   })
+
 
   return (
     <div 
@@ -20,7 +25,8 @@ export default function backdrop({ onClick, children, loginTemp, saveLoginInfo }
     >
       {/* gap-[xx rem] sets horizontal position of modal */}
       {/* Has an overlay outside of modal when active. Prevents first click-through but Google does this too so. */}
-      <ul className="flex justify-evenly gap-[12.5rem] w-100% md:pt-3 w-[100vw] pb-[70vh] z-10">
+      {/* The ul element IS THE ONE that fires click events */}
+      <ul id="backdrop" className="flex justify-evenly gap-[12.5rem] w-100% md:pt-3 w-[100vw] pb-[70vh] z-10">
         <div className="hidden sm:block"></div>
         <div className="hidden sm:block"></div>
         <div></div>

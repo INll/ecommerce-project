@@ -39,3 +39,6 @@ Today's agenda includes comparing NextAuth and Iron Session, as well as packing 
 
 Teaching myself backend and trying to apply to my project at the same time is slow and tiring but progress is
 occuring.
+
+19-2-2023
+

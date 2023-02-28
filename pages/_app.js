@@ -1,16 +1,13 @@
 import '../styles/globals.css';
-import { SessionProvider } from 'next-auth/react';
+import { AuthProvider } from '../contexts/index';
 
 // Component is default export of index.js
-function MyApp({ 
-  Component, 
-  pageProps: { session, ...pageProps }, 
-}) {
+function MyApp({ Component, pageProps }) {
   const getLayout = Component.getLayout || ((page) => page);
   return (
-    <SessionProvider session={session}>
+    <AuthProvider>
       {getLayout(<Component {...pageProps} />)}
-    </SessionProvider>
+    </AuthProvider>
   );
 }
 
