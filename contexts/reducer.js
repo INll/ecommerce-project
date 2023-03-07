@@ -1,12 +1,19 @@
 let user;
 
-if (typeof window !== 'undefined') {
-  user = JSON.parse(localStorage.getItem('currentUser'));
-}
+// if (typeof window !== 'undefined') {
+//   let currUser = localStorage.getItem('currentUser');
+//   if (currUser === undefined) {
+//     currUser = 'signed out';
+//     user = 'signed out';
+//   } else {
+//     user = JSON.parse(currUser);
+//   }
+// }
 
 // user is the same object used to sign jwts
 export const initialState = {
-  user: '' || user,
+  // user: 'signed out' || user,
+  user: 'signed out',
   err: null
 }
 
@@ -14,17 +21,17 @@ export function authReducer(initialState, action) {
   switch (action.type) {
     case 'loginSuccess':
       return {
-        ...initialState,
-        user: action.payload.user
+        user: action.payload.user,
+        err: action.payload.errMessage
       };
     case 'logout':
       return {
         ...initialState,
-        user: ''
+        user: 'signed out'
       };
     case 'loginFailure':
       return {
-        ...initialState,
+        user: false,
         err: action.payload.errMessage
       };
     default:

@@ -6,15 +6,9 @@ import axios from "axios";
 
 // Validation protocol for login items
 const loginReqs = {
-  username: {
-    min: 3,
-    max: 15,
-  },
-  password: {
-    min: 8,
-    max: 20,
-  },
-}
+  username: {min: 3, max: 15},
+  password: {min: 8, max: 20},
+};
 
 const loginSchema = Yup.object().shape({
   userName: Yup.string()
@@ -25,7 +19,7 @@ const loginSchema = Yup.object().shape({
   .min(loginReqs.password.min, `必須多於 ${loginReqs.password.min} 個字符`)
   .max(loginReqs.password.max, `必須少於 ${loginReqs.password.max} 個字符`)
   .required('此項不能爲空'),
-})
+});
 
 const registrationSchema = Yup.object().shape({
   userName: Yup.string()
@@ -48,14 +42,14 @@ const registrationSchema = Yup.object().shape({
   .matches(/[a-z]/, '密碼必須包含至少一個細楷英文字母')
   .matches(/[A-Z]/, '密碼必須包含至少一個大楷英文字母')
   .required('此項不能爲空'),
-})
+});
 
 function handleError (err, res) {
   console.log(`Error: ${err}`);
   console.log(err.stack);
   res.json(err);
   res.status(405).end();
-}
+};
 
 export default function index({ onClick, loginTemp, saveLoginInfo, isReg, setIsReg,
   prevForm, setPrevForm, modalIsActive, setModalIsActive
@@ -122,6 +116,10 @@ export default function index({ onClick, loginTemp, saveLoginInfo, isReg, setIsR
   let token;
   let user;
 
+  // useEffect(() => {
+  //   console.log('prevForm: ' + prevForm.hasChanged);
+  // })
+
   return (
     <div>
       {/* Go Backdrop to set Modal horizontal position */}
@@ -144,7 +142,7 @@ export default function index({ onClick, loginTemp, saveLoginInfo, isReg, setIsR
               JSON.stringify(prevForm.formData) !== JSON.stringify(value) ||
               JSON.stringify(prevForm.prevIsReg) !== JSON.stringify(isReg)
             ) {
-              console.log('form modified!');
+              // console.log('form modified!');
               const response = await axios.post('/api/authentication', { 
                 value: value, 
                 isReg: isReg
@@ -157,11 +155,11 @@ export default function index({ onClick, loginTemp, saveLoginInfo, isReg, setIsR
               // {
               //   _id: new ObjectId("63ecabb23e2de88502535a60"),
               //   userName: 'admin',
+              //   clearance: 2,       <---- required for conditional rendering
               //   orders: [],
               //   creationTime: 2023-02-15T09:53:54.999Z
               // }
 
-              console.log(loginResult);
               // update state with modified form data + new response
               setPrevForm({
                 formData: value,
@@ -184,35 +182,33 @@ export default function index({ onClick, loginTemp, saveLoginInfo, isReg, setIsR
                 dispatch({
                   type: 'loginFailure',
                   payload: {
-                    user: null,
+                    user: false,
                     errMessage: 'No such user'
                   }
                 });
                 break;
               case 1: // login success
                 console.log('login success');
-                if (!prevForm.hasChanged) {
-                  dispatch({
-                    type: 'loginSuccess',
-                    payload: {  // token is sent via cookie
-                      user: user,  // save user to session context
-                      errMessage: null
-                    }
-                  });
-                  // useContext does not persist on refresh
-                  if (user) {
-                    localStorage.setItem('currentUser', JSON.stringify(user));
-                  }
-                  setModalIsActive(!modalIsActive);  // close modal
+                dispatch({
+                  type: 'loginSuccess',
+                  payload: {  // token is sent via cookie
+                    user: user,  // save user to session context
+                    errMessage: null
+                }})
+                // useContext does not persist on refresh
+                if (user) {
+                  localStorage.setItem('currentUser', JSON.stringify(user));
                 }
+                // console.log('login success, closing modal');
+                setModalIsActive(!modalIsActive);  // close modal
                 break;
               case 2:
                 handleWarningMsg('loginPasswordFailure', 8500);
-                if (!prevForm.hasChanged) {
+                if (prevForm.hasChanged) {
                   dispatch({  // dispatch when it was not a repeated request
                     type: 'loginFailure',
                     payload: {
-                      user: null,
+                      user: false,
                       errMessage: 'Incorrect password'
                     }
                   });
@@ -223,31 +219,26 @@ export default function index({ onClick, loginTemp, saveLoginInfo, isReg, setIsR
                 dispatch({
                   type: 'loginFailure',
                   payload: {
-                    user: null,
+                    user: false,
                     errMessage: 'Username already used'
                   }
                 });
                 break;
               case 4:
                 console.log('signup success');
-                if (!prevForm.hasChanged) {
-                  dispatch({
-                    type: 'loginSuccess',
-                    payload: {
-                      user: user,
-                      errMessage: null
-                    }
-                  });
-                  if (user) {
-                    localStorage.setItem('currentUser', JSON.stringify(user));
-                  };
-                  setModalIsActive(!modalIsActive);  // close modal
+                dispatch({
+                  type: 'loginSuccess',
+                  payload: {
+                    user: user,
+                    errMessage: 'signup success'
+                  }
+                });
+                if (user) {
+                  localStorage.setItem('currentUser', JSON.stringify(user));
                 };
+                setModalIsActive(!modalIsActive);  // close modal
                 console.log(token);
                 console.log(user);
-                break;
-              case 5:
-                console.log('Logged out!');
                 break;
               default:
                 throw new Error(`Unexpected login result: ${loginResult}`);
@@ -387,4 +378,4 @@ export default function index({ onClick, loginTemp, saveLoginInfo, isReg, setIsR
       </div>
     </div>
   )
-}
+};

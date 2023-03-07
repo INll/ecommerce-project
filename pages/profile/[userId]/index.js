@@ -1,6 +1,6 @@
 import * as React from 'react';
-import ProfilePage from '../components/ProfilePage';
-import Layout from '../components/Layout';
+import ProfilePage from '../../../components/ProfilePage';
+import Layout from '../../../components/Layout';
 
 export default function Profile() {
   return (

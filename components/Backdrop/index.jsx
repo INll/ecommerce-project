@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { React, useEffect, useContext } from 'react';
+import { React, useEffect } from 'react';
 
 export default function backdrop({ onClick, children }) {
 

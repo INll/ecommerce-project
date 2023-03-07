@@ -3,7 +3,7 @@ import React from 'react';
 export default function ProfilePage() {
   return (
     <>
-      <div>test</div>
+      <div>regular user profile</div>
     </>
   )
 }
