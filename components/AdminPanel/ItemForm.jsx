@@ -6,15 +6,15 @@ import axios from 'axios';
 export default function ItemForm() {
   const [ isViewing, setIsViewing ] = useState(false);  // toggle between tabs
   const [ draft, setDraft ] = useState({  // store unsubmitted data
-    price: '',
-    file: '',
-    title: '',
-    type: '',
-    description: '',
-    stock: ''
+    price: '', file: '', title: '', type: '', desc: '', stock: ''
   });
+
+  const [ submitting, setSubmitting ] = useState(false);  // after submitting; before received response
+  const [ isDone, setIsDone ] = useState(false); // after receiving response; before start new button is clicked 
+  const [ prompt, setPrompt ] = useState('');  // prompt user about submission result, edited in switch statment in submission handler 
   
-  const MAX_FILE_SIZE = 3 * 1024 * 1024; // 3mb
+  const MAX_FILE_SIZE_IN_MBS = 3;
+  const MAX_FILE_SIZE = MAX_FILE_SIZE_IN_MBS * 1024 * 1024; // 3mb
   const formReqs = {
     title: { max: 50 },
     desc: { max: 300 },
@@ -23,9 +23,13 @@ export default function ItemForm() {
   }
 
   const querySchema = Yup.object().shape({
-    file: Yup.mixed()
-    .test('fileSize', '檔案大小超過3MB, 請再試一次', (values) => values && values.size <= MAX_FILE_SIZE)
-    .required('此項不能爲空'),
+    file: Yup.mixed().when('hasFile', (values) => {
+      if (values) {
+        return Yup.mixed().test('fileSize', '檔案大小超過3MB, 請再試一次', (values) => values.size <= MAX_FILE_SIZE)
+      } else {
+        return Yup.mixed().notRequired();
+      }
+    }),
     title: Yup.string()
     .max(formReqs.title.max, `必須少於 ${formReqs.title.max} 個字符`)
     .required('此項不能爲空'),
@@ -51,13 +55,47 @@ export default function ItemForm() {
 
   async function handleSubmit(values) {
     try {
-      console.log('submitting');
-      const response = await axios.post('/api/admin/post/new', {values});
-      console.log(response);
+      const response = await axios.post('/api/admin/post/item/new', { 
+        price: values.price,
+        title: values.title,
+        type: values.type,
+        desc: values.desc,
+        stock: values.stock,
+        file: values.file
+       }, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      setSubmitting(!submitting);  // This does not work??
+      console.log('response' + response.data.result);
+
+      switch(response.data.result) {
+        case 0:  // unknown error
+          setPrompt('未知錯誤, 請再試一次。');
+          break;
+        case 1:  // success
+          // TODO: Insert item URL after prompt
+          setPrompt(`物品新增成功! `);
+          break;
+        case 2:  // reached upload limit
+          setPrompt(`錯誤: 此帳號沒有權限新增更多商品。`);
+          break;
+        default:
+          throw new Error('Unknown firebase upload result code');
+      }
+      console.log('setDone: ' + isDone);
+      setIsDone(!isDone);  // this displays prompt
+
     } catch (err) {
       handleError(err);
     }
   }
+
+  useEffect(() => {
+    // setSubmitting(!submitting);
+    console.log('submitting is: ' + submitting);
+  })
 
   return (
     <>
@@ -75,7 +113,10 @@ export default function ItemForm() {
             validateOnChange={false}
             initialValues={draft}
             validationSchema={querySchema}
-            onSubmit={handleSubmit}
+            onSubmit={async (values) => {
+              setSubmitting(!submitting);
+              handleSubmit(values);
+            }}
           >
           {({ setFieldValue, errors, values, handleChange }) => (
             <Form id='form' className='flex flex-col h-full w-full'
@@ -86,14 +127,39 @@ export default function ItemForm() {
                   price: values.price,
                   title: values.title,
                   type: values.type,
-                  description: values.desc,
+                  desc: values.desc,
                   stock: values.stock
                 });
               }}
-              onSubmit={(values) => {
-                console.log(values);
-              }}
             >
+              {submitting 
+                ? <div className='flex flex-col h-full w-full absolute bg-stone-900/60 z-10'>
+                    <div className="relative h-full w-full">
+                      <svg className="absolute animate-spin -ml-1 mr-3 h-8 w-8 left-[47%] top-[42%] text-white z-20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                    </div>
+                  </div>
+                : null
+              }
+              {isDone
+                ? <div className='flex flex-col h-full w-full absolute bg-stone-800 z-10'>
+                        <div className="flex flex-col justify-center items-center h-full w-full gap-3">
+                          <div className="text-xl tracking-wider">{prompt}</div>
+                          <button type='button' className='mt-6 font-bold rounded-[0.275rem] border-[2px] py-2 px-5 tracking-widest border-amber-400 
+                            active:border-amber-700 transition-colors hover:bg-amber-400 active:bg-amber-500 disabled:border-amber-700 disabled:bg-amber-500'
+                            onClick={() => {
+                              setIsDone(false);
+                              setSubmitting(false);
+                              setDraft({price: '', file: '', title: '', type: '', desc: '', stock: ''});
+                            }}
+                            >繼續</button>
+                          {/* TODO: Add prompt here, and a button to let user to click to continue, which sets isDone back to false so form is displayed again */}
+                        </div>
+                      </div>
+                : null
+              }
               <div className='flex h-[15rem]'>
                 <div className='relative flex h-full w-[40%] items-center justify-center'>
                   <label htmlFor='fileUpload' className='bg-stone-600/20 rounded-[0.4rem] w-48 h-48 cursor-pointer px-auto'> 
@@ -104,7 +170,7 @@ export default function ItemForm() {
                         按此上載預覽圖 
                         <ul className='text-left text-stone-400/60 left-8 text-sm absolute top-[57%] whitespace-pre italic'>
                           <li>- 只限一張</li>
-                          <li>- 須小於10mb</li>
+                          <li>- 須小於{MAX_FILE_SIZE_IN_MBS}mb</li>
                           <li>- 只接受.png格式</li>
                         </ul>
                       </div>
@@ -168,7 +234,10 @@ export default function ItemForm() {
           )}
         </Formik>
       </div>
-      <button form='form' type='submit' className='mt-2 ml-auto font-bold rounded-[0.275rem] border-[2px] py-2 px-5 tracking-wide border-cyan-400 active:border-cyan-700 transition-colors hover:bg-cyan-400 active:bg-cyan-500'>確認變更</button>
+      <button form='form' type='submit' disabled={submitting}  // do not set onClick={setState} here, it will prevent form submission
+        className='mt-2 ml-auto font-bold rounded-[0.275rem] border-[2px] py-2 px-5 tracking-wide border-cyan-400 
+        active:border-cyan-700 transition-colors hover:bg-cyan-400 active:bg-cyan-500 disabled:border-cyan-700 disabled:bg-cyan-500'
+      >確認變更</button>
     </>
   )
 }
