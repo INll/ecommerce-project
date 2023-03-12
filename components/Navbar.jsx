@@ -232,7 +232,7 @@ export default function Navbar() {
               ? (session.user.clearance === 2  // 2
                   ? (
                     <div className='fixed min-w-[10rem] h-14 rounded-[0.26rem] bg-red-100
-                      px-8 py flex items-center pb-[0.14rem] justify-center top-3 right-3 z-10'>
+                      px-8 py flex items-center pb-[0.14rem] justify-center top-3 right-3 z-50'>
                       <div className='text-red-500 tracking-tight text-xl font-bold'>正在以管理員身份瀏覽</div>
                     </div>
                     )

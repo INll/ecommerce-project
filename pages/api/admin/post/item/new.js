@@ -7,7 +7,7 @@ import mongoose from 'mongoose';
 import * as jose from 'jose';
 import fs from 'fs';
 import { storage, analytics } from '../../../../../firebaseConfig';
-import { ref, uploadBytes } from 'firebase/storage';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 export const config = {
   api: {
@@ -25,19 +25,31 @@ const formidableOpts = {
   maxFileSize: 3 * 1024 * 1024,
 }
 
-let imgPath;  // path on Firebase Storage bucket
+let imgUrlAndPath;  // path on Firebase Storage bucket
 let username;  // connecting user
 
-// upload image as uint8array to Firebase Storage
-function handleUpload(bytes, newFilename) {
+// upload image as uint8array to Firebase Storage and save its URL + path in MongoDB
+async function handleUploadToFirebase(bytes, newFilename) {
   if (!bytes) throw new Error('Firebase upload: File Invalid');
   const path = `images/${newFilename}.png`;
 
   const storageRef = ref(storage, path);  // path on cloud
-  uploadBytes(storageRef, bytes).then((snapshot) => {
-    console.log('Upload successful');
+  // because offical docs uses .then
+  return new Promise((resolve, reject) => {
+    uploadBytes(storageRef, bytes).then((snapshot) => {
+      console.log('Upload successful');
+      // url can be used to fetch data directly
+      getDownloadURL(storageRef).then((url) => {
+        let urlPath = {
+          url: url,
+          path: path
+        }
+        resolve(urlPath);
+      });
+    });
+  }).then((value) => {
+    return value;
   });
-  return path;
 };
 
 export default async function handler(req, res) {
@@ -76,16 +88,16 @@ export default async function handler(req, res) {
           // upload files to Firestore
           const imgName = files.file.newFilename;
           const imgBytes = fs.readFileSync(files.file.filepath);  // returns Buffer
-          imgPath = handleUpload(imgBytes, imgName);
+          imgUrlAndPath = await handleUploadToFirebase(imgBytes, imgName);
         } else {
-          imgPath = null;
+          imgUrlAndPath = null;
         }
 
         // create item in MongoDB
         let newItem = await Item.create({
           itemType: fields.type,
           price: fields.price,
-          images: imgPath,
+          images: imgUrlAndPath,
           title: fields.title,
           description: fields.desc,
           stock: fields.stock
@@ -96,7 +108,6 @@ export default async function handler(req, res) {
         await User.updateOne({ userName: username }, { $inc: { hasUploaded: 1 } })
         return res.status(200).json({ message: `Item ${fields.title} created successfully`, result: 1 });
       });
-      // Why does this still throw API resolved without response warning?
     } else {
       return res.status(405).json({ message: 'Invalid method', result: 0 });
     }

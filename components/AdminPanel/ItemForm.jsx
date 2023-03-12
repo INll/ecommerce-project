@@ -1,18 +1,18 @@
 import { useState, useEffect } from 'react'
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 
 export default function ItemForm() {
   const [ isViewing, setIsViewing ] = useState(false);  // toggle between tabs
-  const [ draft, setDraft ] = useState({  // store unsubmitted data
-    price: '', file: '', title: '', type: '', desc: '', stock: ''
-  });
-
   const [ submitting, setSubmitting ] = useState(false);  // after submitting; before received response
   const [ isDone, setIsDone ] = useState(false); // after receiving response; before start new button is clicked 
   const [ prompt, setPrompt ] = useState('');  // prompt user about submission result, edited in switch statment in submission handler 
   
+  const initialForm = {  // initial form values
+    price: '', file: '', title: '', type: '', desc: '', stock: ''
+  };
+
   const MAX_FILE_SIZE_IN_MBS = 3;
   const MAX_FILE_SIZE = MAX_FILE_SIZE_IN_MBS * 1024 * 1024; // 3mb
   const formReqs = {
@@ -23,13 +23,15 @@ export default function ItemForm() {
   }
 
   const querySchema = Yup.object().shape({
-    file: Yup.mixed().when('hasFile', (values) => {
-      if (values) {
-        return Yup.mixed().test('fileSize', '檔案大小超過3MB, 請再試一次', (values) => values.size <= MAX_FILE_SIZE)
-      } else {
-        return Yup.mixed().notRequired();
-      }
-    }),
+    // https://stackoverflow.com/a/61485881/17974101                 accept no image
+    file: Yup.mixed().test('fileSize', '檔案大小超過3MB, 請再試一次', (value) => !value || value.size <= MAX_FILE_SIZE),
+    // file: Yup.mixed().when('hasFile', value => {
+    //   if (value) {
+    //     return Yup.mixed().test('fileSize', '檔案大小超過3MB, 請再試一次', (value) => value.size >= MAX_FILE_SIZE)
+    //   } else {
+    //     return Yup.mixed().notRequired()
+    //   }
+    // }),
     title: Yup.string()
     .max(formReqs.title.max, `必須少於 ${formReqs.title.max} 個字符`)
     .required('此項不能爲空'),
@@ -61,7 +63,7 @@ export default function ItemForm() {
         type: values.type,
         desc: values.desc,
         stock: values.stock,
-        file: values.file
+        file: values.file,
        }, {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -74,9 +76,8 @@ export default function ItemForm() {
         case 0:  // unknown error
           setPrompt('未知錯誤, 請再試一次。');
           break;
-        case 1:  // success
-          // TODO: Insert item URL after prompt
-          setPrompt(`物品新增成功! `);
+        case 1:  // success          // TODO: Insert item URL after prompt
+          setPrompt(`商品新增成功! `);
           break;
         case 2:  // reached upload limit
           setPrompt(`錯誤: 此帳號沒有權限新增更多商品。`);
@@ -85,17 +86,12 @@ export default function ItemForm() {
           throw new Error('Unknown firebase upload result code');
       }
       console.log('setDone: ' + isDone);
+      setSubmitting(!submitting);
       setIsDone(!isDone);  // this displays prompt
-
     } catch (err) {
       handleError(err);
     }
   }
-
-  useEffect(() => {
-    // setSubmitting(!submitting);
-    console.log('submitting is: ' + submitting);
-  })
 
   return (
     <>
@@ -111,27 +107,15 @@ export default function ItemForm() {
           <Formik
             validateOnBlur={false}
             validateOnChange={false}
-            initialValues={draft}
+            initialValues={initialForm}
             validationSchema={querySchema}
             onSubmit={async (values) => {
               setSubmitting(!submitting);
               handleSubmit(values);
             }}
           >
-          {({ setFieldValue, errors, values, handleChange }) => (
-            <Form id='form' className='flex flex-col h-full w-full'
-              onKeyUp={() => {
-                setDraft({
-                  ...draft,
-                  file: values.file,
-                  price: values.price,
-                  title: values.title,
-                  type: values.type,
-                  desc: values.desc,
-                  stock: values.stock
-                });
-              }}
-            >
+          {({ setFieldValue, errors, values, handleChange, resetForm }) => (
+            <Form id='form' className='flex flex-col h-full w-full'>
               {submitting 
                 ? <div className='flex flex-col h-full w-full absolute bg-stone-900/60 z-10'>
                     <div className="relative h-full w-full">
@@ -152,7 +136,7 @@ export default function ItemForm() {
                             onClick={() => {
                               setIsDone(false);
                               setSubmitting(false);
-                              setDraft({price: '', file: '', title: '', type: '', desc: '', stock: ''});
+                              resetForm();
                             }}
                             >繼續</button>
                           {/* TODO: Add prompt here, and a button to let user to click to continue, which sets isDone back to false so form is displayed again */}
@@ -179,8 +163,13 @@ export default function ItemForm() {
                   <input value='' type="file" name='file' accept=".png" id="fileUpload" className='hidden' onChange={(e) => {
                     setFieldValue('file', e.currentTarget.files[0]);
                   }}/>
+                  {errors.file 
+                    ? <div className='font-bold text-red-600 text-[0.8rem] absolute left-[1.8rem] top-[13.6rem]'>{errors.file}</div>
+                    : null}
                   {values.file
-                  ? <img src={URL.createObjectURL(values.file)} alt='itemThumbnail' className='max-w-[12rem] px-auto absolute pointer-events-none'></img>
+                  ? <div className='absolute flex items-center justify-center h-full w-full pointer-events-none'>
+                      <img src={URL.createObjectURL(values.file)} alt='itemThumbnail' className='max-w-[80%] max-h-[80%] px-auto pointer-events-none'></img>
+                    </div>
                   : null }
                 </div>
                 <ul className='w-[60%] h-full flex flex-col justify-center gap-5'>
@@ -217,14 +206,18 @@ export default function ItemForm() {
                 </li>
                 <li className='flex items-center col-span-3 gap-3 relative'>
                   <label htmlFor="stock" className='w-fit'>庫存</label>
-                  <Field type='number' name='stock' id='stock' className='h-8 bg-stone-600/40 rounded w-24 pl-2' onChange={handleChange} value={values.stock}></Field>
+                  <Field type='number' name='stock' id='stock' className='h-8 bg-stone-600/40 rounded w-24 pl-2' 
+                    onChange={handleChange} value={values.stock} onWheel={(e) => e.target.blur()} onKeyDown={(e) => {(e.key === 'e' || e.key === '.') && e.preventDefault()}}
+                  ></Field>
                   {errors.stock 
                     ? <div className='font-bold text-red-600 text-[0.8rem] absolute left-[2.7rem] top-[2.1rem]'>{errors.stock}</div>
                     : null}
                 </li>
                 <li className='flex items-center col-span-5 gap-3 ml-6 relative'>
                   <label htmlFor="price" className='w-fit'>零售價</label>
-                  <Field type='number' name='price' id='price' className='h-8 bg-stone-600/40 rounded w-[6.1rem] pl-2' onChange={handleChange} value={values.price}></Field>HKD
+                  <Field type='number' name='price' id='price' className='h-8 bg-stone-600/40 rounded w-[6.1rem] pl-2'
+                   onChange={handleChange} value={values.price} onWheel={(e) => e.target.blur()} onKeyDown={(e) => {(e.key === 'e' || e.key === '.') && e.preventDefault()}}
+                  ></Field>HKD
                   {errors.price 
                     ? <div className='font-bold text-red-600 text-[0.8rem] absolute left-[3.7rem] top-[2.1rem]'>{errors.price}</div>
                     : null}
