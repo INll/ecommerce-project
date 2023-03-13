@@ -7,7 +7,9 @@ import { signToken } from '../../lib/token.js';
 import dbConnect from '../../lib/mongoose.js';
 import { userSchema } from '../../../backend/Models/user.js';
 import mongoose from 'mongoose';
+import { date } from 'yup';
 
+const EIGHT_HOURS = 8*60*60*1000;   // mongodb saves Date in GMT by default
 
 function handleError (err, res) {
   console.error(`Error: ${err}`);
@@ -63,7 +65,8 @@ export default async function handler(req, res) {
               passWord == user.passWord  // for 'adminadmin' 
             ) {
               // update lastLogin
-              user.lastLogin = Date.now();
+
+              user.lastLogin = Date.now() + EIGHT_HOURS;
               await user.save();
 
               user.passWord = undefined;  // Erase pass sensitive info
@@ -85,10 +88,13 @@ export default async function handler(req, res) {
           if (userExists != null) {
             res.status(200).json({ loginResult: 3 });
           } else {
+
             let newUserDetails = {
               userName: userName,
               passWord: bcrypt.hashSync(passWord, 10),
               clearance: 0,
+              creationTime: Date.now() + EIGHT_HOURS,
+              lastLogin: Date.now() + EIGHT_HOURS,
             }
             let newUser = await User.create(newUserDetails);
             let token = await signToken(newUser);

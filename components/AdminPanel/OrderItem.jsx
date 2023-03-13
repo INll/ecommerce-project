@@ -1,18 +1,30 @@
 import { useEffect } from 'react';
 
-export default function OrderItem({ item }) {
-
+export default function OrderItem({ item, orderDetails, colSpan }) {
+  // amount is stored in another array of objects
+  let amountObj = orderDetails.find((element) => element.itemid === item._id);
   return (
     <>
-      <li key={item._id} className='border-2 border-transparent grid grid-cols-12 pr-4 justify-center items-center bg-stone-700/80 rounded-[0.275rem] w-[100%] text-center cursor-pointer
+      <li className='flex flex-col gap-1 sm:gap-0 sm:grid sm:grid-cols-12 sm:pr-3 md:pr-4 sm:justify-center sm:items-center border-2 border-transparent bg-stone-700/80 rounded-[0.275rem] w-[100%] text-center cursor-pointer
       hover:border-white'>
         {/* img tag determines height, negative margin compensates border-2 */}
-        <img className='col-span-3 h-28 w-full -my-[2px] -ml-[2px] object-cover rounded-l-[0.275rem]' id={item._id} src={item.images.url} alt={`Image of ${item.title}`}/>
-        <div className='col-span-4'>{item.title}</div>
-        <div className='col-span-1'>{item.itemType}</div>
-        <div className='col-span-2'>{item.price}</div>
-        {/* <div>{item.description}</div> */}
-        <div className='col-span-2'>{item.stock}</div>
+        <img className={`h-28 w-full -my-[2px] object-cover rounded-t-[0.275rem] sm:rounded-tr-none sm:rounded-l-[0.275rem] sm:ml-[2px] sm:col-span-3`} id={item._id} src={item.images.url} alt={`Image of ${item.title}`}/>
+        <div className={`sm:col-span-5 sm:w-full px-[8%] pt-[6%] text-left sm:text-center sm:px-8 sm:pt-0`}>
+          <div className='sm:invisible sm:absolute text-gray-300'><i><u>名稱</u></i></div>
+          <div className='font-bold sm:font-normal'>{item.title}</div>
+        </div>
+        <div className={`sm:col-span-1 sm:w-full px-[8%] text-left sm:text-center sm:px-0 sm:pt-0`}>
+          <div className='sm:invisible sm:absolute text-gray-300'><i><u>類別</u></i></div>
+          <div className='font-bold sm:font-normal'>{item.itemType}</div>
+        </div>
+        <div className={`sm:col-span-2 sm:w-full px-[8%] text-left sm:text-center sm:px-0 sm:pt-0`}>
+          <div className='sm:invisible sm:absolute text-gray-300'><i><u>價格</u></i></div>
+          <div className='font-bold sm:font-normal'>{item.price}</div>
+        </div>
+        <div className={`sm:col-span-1 sm:w-full px-[8%] pb-[6%] text-left sm:text-center sm:px-0 sm:pt-0`}>
+          <div className='sm:invisible sm:absolute text-gray-300'><i><u>數量</u></i></div>
+          <div className='font-bold sm:font-normal'>{amountObj.amount}</div>
+        </div>
       </li>
     </>
   )

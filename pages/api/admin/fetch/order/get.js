@@ -3,8 +3,6 @@ import { userSchema } from '../../../../../../backend/Models/user';
 import { orderSchema } from '../../../../../../backend/Models/order';
 import { ItemSchema } from '../../../../../../backend/Models';
 import mongoose from 'mongoose';
-import { storage } from '../../../../../firebaseConfig';
-import { getDownloadURL, ref } from 'firebase/storage';
 
 function handleError (err, res) {
   console.error(`Error: ${err}`);
@@ -26,11 +24,12 @@ export default async function handler(req, res) {
         // result.userName returns 'new ObjectId('xxxxxxx'), need to convert to string to use in findById()
         let username = await User.findById(result.userName.toString(), 'userName');
         // get item infos on all items in an order
-        let objectIdArr = result.itemID.map(item => item.itemid.toString());
-        let itemResults = await Item.find({
+        const objectIdArr = result.itemID.map(item => item.itemid.toString());
+        const amountArr = result.itemID.map(item => item.amount);
+        const itemResults = await Item.find({
           _id: { $in: objectIdArr }  // items where _id match at least one of $in
         });
-        return res.json({ message: `success`, result: 1, orderDetails: result, username: username, itemDetails: itemResults });
+        return res.json({ message: `success`, result: 1, orderDetails: result, username: username, itemDetails: itemResults, itemAmounts: amountArr });
       }
     } else {
       return res.status(405).send({ message: 'invalid method', result: 0 });

@@ -23,10 +23,15 @@ export default async function handler(req, res) {
       const newUsersThisMonth = await User.aggregate(countThisMonth);
       const newUsersLastMonth = await User.aggregate(countLastMonth);
       const usersLast30Days = await User.aggregate(countLast30Days);
+      console.log('=================================');
+      console.log(newUsersThisMonth);
+      console.log(newUsersLastMonth);
+      console.log('=================================');
       // handle `undefined` returned by $count operator if no matching documents were found
       let queryResult = [newUsersThisMonth, newUsersLastMonth, usersLast30Days].map(e => ((e.length === 0) ? 0 : e[0].result));
       // TODO: Implement average monthly expenditure aggregation. Currently I'm faking a N/A response.
       queryResult.push('N/A');
+      console.log(queryResult);
       res.status(200).json({ message: queryResult });
     } else {
       res.status(405).json({ message: 'Invalid method' });
