@@ -26,7 +26,7 @@ export default function backdrop({ onClick, children }) {
       {/* gap-[xx rem] sets horizontal position of modal */}
       {/* Has an overlay outside of modal when active. Prevents first click-through but Google does this too so. */}
       {/* The ul element IS THE ONE that fires click events */}
-      <ul id="backdrop" className="flex justify-evenly gap-[12.5rem] w-100% md:pt-3 w-[100vw] pb-[70vh] z-10">
+      <ul id="backdrop" className="flex justify-evenly sm:gap-[15%] lg:gap-[12.5rem] md:pt-3 sm:w-[97vw] md:w-[95vw] lg:w-[98vw] pb-[70vh] z-">
         <div className="hidden sm:block"></div>
         <div className="hidden sm:block"></div>
         <div></div>

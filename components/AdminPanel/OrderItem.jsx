@@ -11,19 +11,19 @@ export default function OrderItem({ item, orderDetails, colSpan }) {
         <img className={`h-28 w-full -my-[2px] object-cover rounded-t-[0.275rem] sm:rounded-tr-none sm:rounded-l-[0.275rem] sm:ml-[2px] sm:col-span-3`} id={item._id} src={item.images.url} alt={`Image of ${item.title}`}/>
         <div className={`sm:col-span-5 sm:w-full px-[8%] pt-[6%] text-left sm:text-center sm:px-8 sm:pt-0`}>
           <div className='sm:invisible sm:absolute text-gray-300'><i><u>名稱</u></i></div>
-          <div className='font-bold sm:font-normal'>{item.title}</div>
+          <div className='font-bold sm:font-normal mb-2 sm:mb-0'>{item.title}</div>
         </div>
         <div className={`sm:col-span-1 sm:w-full px-[8%] text-left sm:text-center sm:px-0 sm:pt-0`}>
           <div className='sm:invisible sm:absolute text-gray-300'><i><u>類別</u></i></div>
-          <div className='font-bold sm:font-normal'>{item.itemType}</div>
+          <div className='font-bold sm:font-normal mb-2 sm:mb-0'>{item.itemType}</div>
         </div>
         <div className={`sm:col-span-2 sm:w-full px-[8%] text-left sm:text-center sm:px-0 sm:pt-0`}>
           <div className='sm:invisible sm:absolute text-gray-300'><i><u>價格</u></i></div>
-          <div className='font-bold sm:font-normal'>{item.price}</div>
+          <div className='font-bold sm:font-normal mb-2 sm:mb-0'>{item.price}</div>
         </div>
-        <div className={`sm:col-span-1 sm:w-full px-[8%] pb-[6%] text-left sm:text-center sm:px-0 sm:pt-0`}>
+        <div className={`sm:col-span-1 sm:w-full px-[8%] pb-[6%] sm:pb-0 text-left sm:text-center sm:px-0 sm:pt-0`}>
           <div className='sm:invisible sm:absolute text-gray-300'><i><u>數量</u></i></div>
-          <div className='font-bold sm:font-normal'>{amountObj.amount}</div>
+          <div className='font-bold sm:font-normal mb-2 sm:mb-0'>{amountObj.amount}</div>
         </div>
       </li>
     </>

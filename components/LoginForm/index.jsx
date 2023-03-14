@@ -123,7 +123,7 @@ export default function index({ onClick, loginTemp, saveLoginInfo, isReg, setIsR
   return (
     <div>
       {/* Go Backdrop to set Modal horizontal position */}
-      <div className='w-[21rem] pt-12 pb-4 min-h-fit rounded-md border-0'>
+      <div className='w-[21rem] pt-12 pb-4 min-h-fit rounded-md border-0 z-50'>
       <Formik
         validateOnBlur={false}
         validateOnChange={false}

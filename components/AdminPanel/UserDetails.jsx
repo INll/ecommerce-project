@@ -11,7 +11,7 @@ export default function UserDetails({ userDetails }) {
         </div>
         <div className='grow-[2]'></div>
         <div className="flex flex-col">
-          <div className='sm:text-right text-lg'>權限: <p className='font-bold text-2xl text-right'>{userDetails.clearance}</p></div>
+          <div className='relative sm:text-right text-lg'><div className='absolute sm:static top-1 sm:top-0'>權限:</div> <p className='font-bold text-2xl text-right'>{userDetails.clearance}</p></div>
         </div>
       </div>
     </>

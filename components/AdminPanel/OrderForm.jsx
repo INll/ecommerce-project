@@ -48,13 +48,7 @@ export default function OrderForm() {
           break;
         case 1:
           setState(2, true);
-          // 
-
-          console.log('=================================')
-          
-          // console.log(JSON.stringify(response.data.orderDetails.itemID));
-          // console.log(JSON.stringify(response.data.itemDetails));
-          console.log('=================================')
+          console.log(response.data);
           setState(4, response.data);
           break;
         default:
@@ -73,6 +67,10 @@ export default function OrderForm() {
     id2: Yup.string().min(formReqs.id2.min, `格式錯誤, 請核對字符數。`).required(`格式錯誤, 請核對字符數。`),
     id3: Yup.string().min(formReqs.id3.min, `格式錯誤, 請核對字符數。`).required(`格式錯誤, 請核對字符數。`)
   });
+
+  // useEffect(() => {
+  //   console.log(isDone);
+  // })
 
   return (
     <>
@@ -105,7 +103,7 @@ export default function OrderForm() {
                 ? isSuccess  // can either display order details or error message
                   ? <div className='w-[80%]'>
                       <OrderDetails orderDetails={response.orderDetails} user={response.username}/>
-                      <ul className='mt-8 sm:mt-5 mb-10 grid grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] sm:flex sm:flex-col justify-center items-center h-fit gap-[0.6rem]'>
+                      <ul className='mt-8 sm:mt-5 mb-10 grid grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] sm:flex sm:flex-col justify-center items-center h-fit gap-[1.5rem] sm:gap-[0.7rem]'>
                         <ul className='invisible absolute sm:static sm:visible pr-3 grid grid-cols-12 w-full h-10 text-center items-center text-lg'>
                           <li className={`col-span-${orderDetailsColSpans[0]}`}>{orderDetailsColNames[0]}</li>
                           <li className={`col-span-${orderDetailsColSpans[1]}`}>{orderDetailsColNames[1]}</li>

@@ -7,6 +7,7 @@ import Stats from './Stats';
 import { useRouter } from 'next/router';
 import { useAuthDispatch, useAuthState } from '../../contexts';
 import * as Scroll from 'react-scroll';
+import Image from 'next/image';
 
 let ScrollLink = Scroll.Link;
 let Element = Scroll.Element;
@@ -37,6 +38,7 @@ export default function AdminProfilePage() {
   let observerOptions = { rootMargin: '0px 0px -80% 0px', threshold: 0}
 
   const username = session.user.userName;
+  const topBottomPadding = 32;
 
   // track in view status of some elements to highlight them in aside nav
   useEffect(() => {
@@ -93,8 +95,21 @@ export default function AdminProfilePage() {
 
   return (
     <>
-    {/* breakpoints: sm lg xl */}
-      <div className='max-w-full lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl bg-neutral-800 border-2 lg:rounded-md xl:rounded-xl mx-auto px-8 sm:px-20 lg:px-20 xl:px-24 py-14 sm:py-[4.6rem]'>
+      <div className="overflow-hidden h-[100vh] w-[100vw] -z-10 fixed ">
+        <Image 
+          alt='background image'
+          src="/dashboard-background.png"
+          quality={100}
+          fill
+          sizes="100vw"
+          style={{
+            objectFit: 'cover'
+          }}
+        />
+      </div>
+      {/* breakpoints: sm lg xl */}
+      <div className='h-0 lg:h-32'></div>
+      <div className='max-w-full lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl bg-neutral-800/80 lg:rounded-md xl:rounded-xl mx-auto px-8 sm:px-20 lg:px-20 xl:px-24 py-14 sm:py-[4.6rem]'>
         <div className="relative">
           <div className='w-[65%] sm:w-full font-extralight text-4xl lg:text-5xl xl:text-6xl pb-6'>歡迎回來, {username} !</div>
           <div className="overflow-hidden">
@@ -107,7 +122,7 @@ export default function AdminProfilePage() {
         </div>
         <div className="sm:grid sm:gap-11 sm:grid-cols-12 mt-14">
           <div className="max-height-fit sm:max-w-[98%] col-span-12 lg:col-span-9">
-            <main className='flex flex-col gap-7'> 
+            <main className='flex flex-col gap-7'>
               <Element className="zerothSection">
                 <section id="zerothSec" className='flex flex-col gap-4 mb-5'>
                   <h2 id='zerothSecHeading' ref={observe0thSec} className='text-3xl sm:text-4xl lg:text-3xl xl:text-4xl tracking-wide mb-4'>即時數據預覽</h2>
@@ -128,10 +143,10 @@ export default function AdminProfilePage() {
                 </section>
               </Element>
               <Element className="thirdSection">
-                <section id='thirdSec' className='flex flex-col gap-4'>
+                <section id='thirdSec' className='flex flex-col gap-4 mb-10'>
                   <div className="flex items-center mb-4 justify-between">
                     <h2 id='thirdSecHeading' ref={observe3rdSec} className='text-3xl sm:text-4xl lg:text-3xl xl:text-4xl tracking-wide mb-4'>用戶</h2>
-                    <div className="mx-4 overflow-visible ">
+                    <div className="m-4 overflow-visible ">
                       {/* <Switch /> */}
                     </div>
                   </div>
@@ -167,6 +182,7 @@ export default function AdminProfilePage() {
           </aside>
         </div>
       </div>
+      <div className='h-48'></div>
     </>
   )
 }

@@ -161,7 +161,7 @@ export default function Navbar() {
 
   return (
     <div className="relative">
-      <nav>
+      <nav className="bg-black w-[100%] fixed z-[100]">
         <NextLink href="/" className="flex items-center justify-center gap-2 md:gap-4 w-100% md:pt-3">
           <div className='text-center w-auto text-xl tracking-widest font-extralight'>MANSWHERE</div>
           <img src="/ms-logo-white.png" alt="logo" className='object-cover w-24'/>
@@ -263,8 +263,9 @@ export default function Navbar() {
             )
           : null
         }
-      </nav>
       <img src="/shopping-cart-white.png" alt="shopping cart icon" className='absolute h-[50px] top-[5%] right-[0.4rem] transition-translate duration-100 hover:-translate-x-1 px-5 py-2'/>
+      </nav>
+      <div className='h-[7.5rem]'></div>
     </div>
   )
 }
