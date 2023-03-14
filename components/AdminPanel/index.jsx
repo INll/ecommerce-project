@@ -93,21 +93,15 @@ export default function AdminProfilePage() {
     }
   }
 
+
   return (
     <>
-      <div className="overflow-hidden h-[100vh] w-[100vw] -z-10 fixed ">
-        <Image 
-          alt='background image'
-          src="/dashboard-background.png"
-          quality={100}
-          fill
-          sizes="100vw"
-          style={{
-            objectFit: 'cover'
-          }}
+      {/* breakpoints: sm lg xl */}
+      <div className=" h-[100vh] w-[100vw] -z-10 fixed">
+        <Image alt='background image' priority={true} src="/dashboard-background.png" quality={100}
+          fill={true} sizes="100vw" className='object-fill absolute'
         />
       </div>
-      {/* breakpoints: sm lg xl */}
       <div className='h-0 lg:h-32'></div>
       <div className='max-w-full lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl bg-neutral-800/80 lg:rounded-md xl:rounded-xl mx-auto px-8 sm:px-20 lg:px-20 xl:px-24 py-14 sm:py-[4.6rem]'>
         <div className="relative">
@@ -143,7 +137,7 @@ export default function AdminProfilePage() {
                 </section>
               </Element>
               <Element className="thirdSection">
-                <section id='thirdSec' className='flex flex-col gap-4 mb-10'>
+                <section id='thirdSec' className='flex flex-col gap-4 md:mb-14'>
                   <div className="flex items-center mb-4 justify-between">
                     <h2 id='thirdSecHeading' ref={observe3rdSec} className='text-3xl sm:text-4xl lg:text-3xl xl:text-4xl tracking-wide mb-4'>用戶</h2>
                     <div className="m-4 overflow-visible ">
@@ -182,7 +176,7 @@ export default function AdminProfilePage() {
           </aside>
         </div>
       </div>
-      <div className='h-48'></div>
+      <div className='0 lg:h-48'></div>
     </>
   )
 }

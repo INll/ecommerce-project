@@ -185,8 +185,8 @@ export default function ItemForm() {
                     <option value="shoes" className='bg-stone-800/40'>鞋</option>
                     <option value="accessories" className='bg-stone-800/40'>飾品</option>
                     <option value="hats" className='bg-stone-800/40'>帽</option>
-                    <option value="jeans" className='bg-stone-800/40'>褲</option>
-                    <option value="shirts" className='bg-stone-800/40'>上衣</option>
+                    <option value="bottoms" className='bg-stone-800/40'>褲</option>
+                    <option value="outers" className='bg-stone-800/40'>上衣</option>
                   </Field>
                   {errors.type 
                     ? <div className='font-bold text-red-600 text-[0.8rem] absolute left-[30.3%] md:left-[4.8rem] top-[2.15rem]'>{errors.type}</div>

@@ -104,7 +104,7 @@ export default function OrderForm() {
                   ? <div className='w-[80%]'>
                       <OrderDetails orderDetails={response.orderDetails} user={response.username}/>
                       <ul className='mt-8 sm:mt-5 mb-10 grid grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] sm:flex sm:flex-col justify-center items-center h-fit gap-[1.5rem] sm:gap-[0.7rem]'>
-                        <ul className='invisible absolute sm:static sm:visible pr-3 grid grid-cols-12 w-full h-10 text-center items-center text-lg'>
+                        <ul className='invisible absolute sm:static sm:visible pr-4 grid grid-cols-12 w-full h-10 text-center items-center text-lg'>
                           <li className={`col-span-${orderDetailsColSpans[0]}`}>{orderDetailsColNames[0]}</li>
                           <li className={`col-span-${orderDetailsColSpans[1]}`}>{orderDetailsColNames[1]}</li>
                           <li className={`w-9 col-span-${orderDetailsColSpans[2]}`}>{orderDetailsColNames[2]}</li>
@@ -132,10 +132,14 @@ export default function OrderForm() {
                           >再試一次</button>
                       </div>
                     </div>
-                : <div className='relative my-8 md:mt-0 md:mb-0 w-full'>
-                    <div className='relative text-center w-full tracking-wider text-xl mb-8 md:mb-0'>
+                : <div className='my-8 md:mt-0 md:mb-0 w-full'>
+                    {/* <div className='relative text-center w-full tracking-wider text-xl mb-8 md:mb-0'>
                       輸入訂單編號
                       <div className='absolute text-center w-full tracking-wider text-sm italic md:left-[9.5rem] md:top-2 text-stone-400'>(格式: xxxx-xxxxxx-xxxx)</div>
+                    </div> */}
+                    <div className='relative flex justify-center tracking-wider text-xl mb-8 md:mb-0'>
+                      輸入訂單編號
+                      <div className='absolute tracking-wider text-sm italic top-8 md:pl-[19rem] md:top-2 text-stone-400'>(格式: xxxx-xxxxxx-xxxx)</div>
                     </div>
                     <div className="relative flex flex-col md:flex-row mb-4 justify-center items-center gap-3 w-full h-fit mt-4">
                     <div className='visible md:invisible md:absolute mb-2 mt-4 text-base'>第一部分</div>
