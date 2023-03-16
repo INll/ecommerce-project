@@ -35,16 +35,14 @@ export default async function middleware(req) {
     protectedRoutes.some((path) =>(pathname === path));
 
   const includesUnprotectedRoute = 
-    unprotectedRoutes.some((path) => pathname === path);
+    unprotectedRoutes.some((path) => pathname === path) || (pathname.startsWith('/api/public'));
 
-  // verify jwt
+  // verify jwt but let request pass regardless
   if (includesUnprotectedRoute) {
     console.log('accessing public route!');
     if (token) {
       try {
         const { payload } = await jose.jwtVerify(token.value, secret);
-        // TODO: Check if associated user has enough clearance to access,
-        //       if not return 403 forbidden
         console.log('token successfully validated!');
 
         const response = NextResponse.next();

@@ -149,7 +149,7 @@ export default function AdminProfilePage() {
               </Element>
             </main>
           </div>
-          <aside className='invisible mt-6 lg:visible col-span-3'>
+          <aside className='absolute invisible mt-6 lg:visible lg:static col-span-3'>
             {/* Why: https://stackoverflow.com/a/43707215/17974101 */}
             <nav className='sticky h-fit top-44'>
               <div className="flex-col">

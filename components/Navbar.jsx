@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
-import { Link } from 'react-scroll';
+import { Link, scroller } from 'react-scroll';
 import LoginModal from './LoginModal/index';
 import { useAuthState, useAuthDispatch } from "../contexts";
 import { useRouter } from 'next/router';
@@ -15,6 +15,7 @@ export default function Navbar() {
   const [ hasMounted, setHasMounted ] = useState(false);
   const [ animated, setAnimated ] = useState(false);
   const router = useRouter();
+
 
   // console.log('animated outside of useEffect ' + animated);
   
@@ -104,12 +105,6 @@ export default function Navbar() {
 
   // set session dependent variables
   useEffect(() => {
-    // console.log('==============================');
-    // console.log('session:      ' + session.user);
-    // console.log('clearance:    ' + session.user.clearance);
-    // console.log('animated:     ' + animated);
-    // console.log('animateState: ' + localStorage.getItem('animationState'));
-
     if (JSON.stringify(session.user)) {
       setLoginTemp({
         userName: '',
@@ -168,26 +163,19 @@ export default function Navbar() {
         </NextLink>
         <ul className='flex justify-evenly'>
           <NextLink href="/">
-            <li className='block px-4 pb-2 pt-4 transition-all duration-200 border-transparent
-              border-b-[3px] hover:border-white cursor-pointer'>
+            <li className='block px-4 pb-2 pt-4 transition-all duration-200 border-transparent border-b-[3px] hover:border-white cursor-pointer'>
               主頁
             </li>
           </NextLink>
-          <Link
-            className='hidden sm:block'
-            activeClass='active'
-            to='/cart'
-            spy={true}
-            smooth={true}
-            duration={500}>
+          <NextLink className='hidden sm:block' href='/' onClick={() => {
+            setTimeout(() => {scroller.scrollTo('catelogue', { smooth: true, duration: 300, offset: -130 })}, 500)
+          }}>
             <li className='hidden sm:block px-4 pb-2 pt-4 transition-all duration-200 border-transparent
-              border-b-[3px] hover:border-white'>
-              商品目錄
+              border-b-[3px] hover:border-white cursor-pointer'>商品目錄
             </li>
-          </Link>
+          </NextLink>
           <li className='hidden sm:block px-4 pb-2 pt-4 transition-all duration-200 border-transparent border-b-[3px] 
-          hover:border-white'>
-            聯繫我們
+          hover:border-white'>聯繫我們
           </li>
           {/* This ternary nest is so beautiful */}
           {hasMounted
@@ -220,7 +208,6 @@ export default function Navbar() {
               />}
           </AnimatePresence>
         </ul>
-        {/* (JSON.parse(localStorage.getItem('playedPromptAnimation')) === false) */}
         {hasMounted  // playedPromptAnimation === false so this plays only once after last log out
           ? (session.user
               ? (session.user.clearance === 2  // 2
@@ -246,12 +233,11 @@ export default function Navbar() {
                           transition={{ type: "spring", duration: 0.5, bounce: 0.3, repeat: 1, repeatType: 'reverse', repeatDelay: 2 }}
                           id='loginSuccessPrompt'
                           >
-                            {/* {disableAnimation()} */}
                             <div className='text-emerald-600 w-fit mx-8 text-xl font-semibold pointer-events-none'>{(session.err === 'signup success') ? '歡迎來到MANSWHERE' : '歡迎回來'}, {session.user.userName}!</div>
                           </motion.div>
                         </div>
                       ) 
-                    : null  // else, display merchant banner but I probably won't have time for this
+                    : null
                 ) 
               : null
             )
