@@ -92,7 +92,7 @@ export default function OrderForm() {
                 ? <div className='flex flex-col h-full w-full absolute bg-stone-900/60 z-30 pointer-events-auto'>
                     <div className="relative h-full w-full">
                       <svg className="absolute animate-spin -ml-1 mr-3 h-8 w-8 left-[47%] top-[44%] text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                       </svg>
                     </div>
@@ -104,7 +104,7 @@ export default function OrderForm() {
                   ? <div className='w-[80%]'>
                       <OrderDetails orderDetails={response.orderDetails} user={response.username}/>
                       <ul className='mt-8 sm:mt-5 mb-10 grid grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] sm:flex sm:flex-col justify-center items-center h-fit gap-[1.5rem] sm:gap-[0.7rem]'>
-                        <ul className='invisible absolute sm:static sm:visible pr-4 grid grid-cols-12 w-full h-10 text-center items-center text-lg'>
+                        <ul className='hidden sm:static sm:visible pr-4 sm:grid sm:grid-cols-12 w-full h-10 text-center items-center text-lg'>
                           <li className={`col-span-${orderDetailsColSpans[0]}`}>{orderDetailsColNames[0]}</li>
                           <li className={`col-span-${orderDetailsColSpans[1]}`}>{orderDetailsColNames[1]}</li>
                           <li className={`w-9 col-span-${orderDetailsColSpans[2]}`}>{orderDetailsColNames[2]}</li>
@@ -142,10 +142,8 @@ export default function OrderForm() {
                       <div className='absolute tracking-wider text-sm italic top-8 md:pl-[19rem] md:top-2 text-stone-400'>(格式: xxxx-xxxxxx-xxxx)</div>
                     </div>
                     <div className="relative flex flex-col md:flex-row mb-4 justify-center items-center gap-3 w-full h-fit mt-4">
-                    <div className='visible md:invisible md:absolute mb-2 mt-4 text-base'>第一部分</div>
-                      {/* maxLength does not work on type='number' */}
-                      {/* https://stackoverflow.com/a/34641129/17974101 */}
-                      {/* // REFACTOR */}
+                    <div className='md:hidden mb-2 mt-4 text-base'>第一部分</div>
+                      {/* maxLength does not work on type='number': https://stackoverflow.com/a/34641129/17974101 */}
                       <Field type='number' name='id1' id='id1' className='rounded pl-3 pb-1 h-[3.2rem] text-4xl bg-stone-600/40 w-[6.75rem] font-medium'
                         onChange={handleChange} value={values.id1}
                         onInput={(e) => {e.target.value = e.target.value.slice(0, 4)}}                // slice to only four digits
@@ -155,16 +153,16 @@ export default function OrderForm() {
                       {(errors.id1 || errors.id2 || errors.id3)
                         ? <div className='font-bold text-red-600 text-[1rem] absolute top-[91%] left-[0%]'>{errors.id1 || errors.id2 || errors.id3}</div>
                         : null}
-                      <div className='absolute invisible md:visible md:static pb-2 text-4xl'>-</div>
-                      <div className='visible md:invisible md:absolute mb-2 mt-4 text-base'>第二部分</div>
+                      <div className='hidden md:inline-block pb-2 text-4xl'>-</div>
+                      <div className='md:hidden mb-2 mt-4 text-base'>第二部分</div>
                       <Field type='number' name='id2' id='id2' className='rounded pl-3 pb-1 h-[3.2rem] text-4xl bg-stone-600/40 w-[9.3rem] font-medium'
                         onChange={handleChange} value={values.id2}
                         onInput={(e) => {e.target.value = e.target.value.slice(0, 6)}}
                         onKeyDown={(e) => {(e.key === 'e' || e.key === '.') && e.preventDefault()}}
                         onWheel={(e) => e.target.blur()}
                       />
-                      <div className='absolute invisible md:visible md:static pb-2 text-4xl'>-</div>
-                      <div className='visible md:invisible md:absolute mb-2 mt-4 text-base'>第三部分</div>
+                      <div className='hidden md:inline-block pb-2 text-4xl'>-</div>
+                      <div className='md:hidden mb-2 mt-4 text-base'>第三部分</div>
                       <Field type='number' name='id3' id='id3' className='rounded pl-3 pb-1 h-[3.2rem] text-4xl bg-stone-600/40 w-[6.75rem] font-medium'
                         onChange={handleChange} value={values.id3}
                         onInput={(e) => {e.target.value = e.target.value.slice(0, 4)}}
