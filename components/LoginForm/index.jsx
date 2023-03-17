@@ -150,16 +150,6 @@ export default function index({ onClick, loginTemp, saveLoginInfo, isReg, setIsR
               // json object returned by json does not persist??
               ({ loginResult, token, user } = response.data);
 
-
-              // example of received user object, saved to context
-              // {
-              //   _id: new ObjectId("63ecabb23e2de88502535a60"),
-              //   userName: 'admin',
-              //   clearance: 2,       <---- required for conditional rendering
-              //   orders: [],
-              //   creationTime: 2023-02-15T09:53:54.999Z
-              // }
-
               // update state with modified form data + new response
               setPrevForm({
                 formData: value,

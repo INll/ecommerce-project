@@ -1,15 +1,5 @@
 let user;
 
-// if (typeof window !== 'undefined') {
-//   let currUser = localStorage.getItem('currentUser');
-//   if (currUser === undefined) {
-//     currUser = 'signed out';
-//     user = 'signed out';
-//   } else {
-//     user = JSON.parse(currUser);
-//   }
-// }
-
 // user is the same object used to sign jwts
 export const initialState = {
   // user: 'signed out' || user,
@@ -34,7 +24,13 @@ export function authReducer(initialState, action) {
         user: false,
         err: action.payload.errMessage
       };
+    case 'updateFav':
+      return {
+        ...initialState,
+        user: action.payload.user
+      }
     default:
       throw new Error(`Unhandled action type: ${action.type}`);
   }
 };
+

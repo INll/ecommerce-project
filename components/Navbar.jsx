@@ -177,7 +177,6 @@ export default function Navbar() {
           <li className='hidden sm:block px-4 pb-2 pt-4 transition-all duration-200 border-transparent border-b-[3px] 
           hover:border-white'>聯繫我們
           </li>
-          {/* This ternary nest is so beautiful */}
           {hasMounted
             ? (session.user !== 'signed out' && session.user !== false
                 ? (session.user.clearance === 2

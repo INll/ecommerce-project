@@ -72,11 +72,9 @@ export default async function handler(req, res) {
               user.passWord = undefined;  // Erase pass sensitive info
               // user._id = undefined;  // this doesn't work
               user.__v = undefined;
-              console.log('about to send' + user);
-              console.log('type: ' + typeof user);
+              // sign jwt
               let token = await signToken(user);
-              setCookie('token', token, { req, res, httpOnly: true });  // sign jwt
-              // cookies.set('token', token, { httpOnly: true, path: '/' });
+              setCookie('token', token, { req, res, httpOnly: true });
               res.status(200).json({ loginResult: 1, token: token, user: user });
             } else {
               res.status(200).json({ loginResult: 2, token: null });

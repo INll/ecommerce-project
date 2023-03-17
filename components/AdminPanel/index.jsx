@@ -38,7 +38,6 @@ export default function AdminProfilePage() {
   let observerOptions = { rootMargin: '0px 0px -80% 0px', threshold: 0}
 
   const username = session.user.userName;
-  const topBottomPadding = 32;
 
   // track in view status of some elements to highlight them in aside nav
   useEffect(() => {

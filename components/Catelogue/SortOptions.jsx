@@ -1,11 +1,9 @@
 import React from 'react';
 import { Menu } from '@headlessui/react';
 import { useSortDispatch } from './SortContext';
-import { useQuery, useQueryClient } from 'react-query';
 
 export default function SortOptions({ sort }) {
 
-  const queryClient = useQueryClient();
   const dispatch = useSortDispatch();
 
   return (

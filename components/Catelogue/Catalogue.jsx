@@ -10,7 +10,7 @@ import * as Scroll from 'react-scroll';
 const sorts = ['默認', '種類', '價格(高至低)', '價格(低至高)'];
 const categories = ['帽', '外套', '鞋', '飾品', '下裝'];
 
-export default function Catelogue() {
+export default function Catalogue() {
   let Element = Scroll.Element;
   
   return (
@@ -18,10 +18,11 @@ export default function Catelogue() {
       <ViewProvider>
         <SortProvider>
           <Element name="catelogue">
-            <ul className='bar w-full h-full flex justify-between px-7 sm:px-14 md:px-[12%] py-7 bg-neutral-900'>
-              <li className='title font-bold text-4xl'><span className='hidden md:inline'>熱賣</span>商品</li>
-              <li className='flex text-zinc-500 items-end font-bold text-xl sm:text-2xl gap-8'>只看
-                <ul className='flex '>
+          <div className='sm:hidden bg-neutral-900 w-full h-full tracking-wider text-center text-4xl font-bold pb-5 pt-10'>瀏覽熱賣商品</div>
+            <ul className='relative bar w-full h-full flex justify-between px-7 sm:px-14 md:px-[12%] py-7 bg-neutral-900'>
+              <li className='hidden sm:inline title font-bold text-4xl'><span className='hidden lg:inline'>熱賣</span>商品</li>
+              <li className='flex text-zinc-500 items-end font-bold text-xl sm:text-2xl gap-8'>
+                <ul className='hidden md:flex md:justify-center w-64'>
                   {categories.map((cat, index) => {
                     return <CatSelector key={index} cat={cat} />
                   })}
@@ -38,8 +39,13 @@ export default function Catelogue() {
                     </div>
                   </Menu.Items>
                 </Menu>
-                <span className='text-zinc-500'>排列</span>
+                <span className='text-zinc-500 w-fit'>排列</span>
               </li>
+            </ul>
+            <ul className='md:hidden flex justify-center text-2xl text-zinc-500 bg-neutral-900 px-7 pb-5'>
+              {categories.map((cat, index) => {
+                return <CatSelector key={index} cat={cat} />
+              })}
             </ul>
           </Element>
           <div className="overflow-hidden px-7 sm:px-14 md:px-[12%] py-4 bg-neutral-900">

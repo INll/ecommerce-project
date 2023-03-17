@@ -1,16 +1,28 @@
-import { useState, useEffect } from 'react';
-import { useQuery, useMutation } from 'react-query';
+import { useQuery } from 'react-query';
 import { useSortContext } from './SortContext';
+import { useAuthDispatch, useAuthState } from "../../contexts";
 import ShopItem from './ShopItem';
-
+import Image from 'next/image';
+import catBg from '../../public/ms-logo-white.png';
 import axios from 'axios';
 
 export default function ItemGrid() {
   const sortContext = useSortContext();
+  const session = useAuthState();
+  const dispatch = useAuthDispatch();
 
   const fetchItemQueryFn = async ({ queryKey }) => {
     try {
       const { data } = await axios.get(queryKey[0], { params: queryKey[1] });
+      if (data.result === 2) {
+        dispatch({
+          type: 'updateFav',
+          payload: {
+            user: data.user,
+            errMessage: null
+          }
+        });
+      }
       return data;
     } catch (err) {
       console.log(err.stack);
@@ -53,8 +65,12 @@ export default function ItemGrid() {
   
   return (
     <>
-      <div className='bg-neutral-900 px-12 sm:px-14 md:px-[12%] pb-4'>
-        <ul className='gap-4 py-6 grid grid-cols-[repeat(auto-fill,minmax(10rem,1fr))]'>
+      {/* the 531px breakpoint corresponds to the 12rem in minmax */}
+      <div className="relative bg-neutral-900 px-12 sm:px-14 md:px-[12%] pb-16">
+        <div className="sticky top-[40%] sm:top-[15%] opacity-[0.15]">
+          <Image src={catBg} alt='background image using logo of MANSWHERE' quality={100} className='absolute'/>
+        </div>
+        <ul className='relative gap-12 min-[531px]:gap-4 py-6 grid grid-cols-[repeat(auto-fill,minmax(12rem,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(11.5rem,1fr))]'>
           {data.data?.map((item) => {
             return (
               <ShopItem key={item._id} item={item} catDict={catDict}/>

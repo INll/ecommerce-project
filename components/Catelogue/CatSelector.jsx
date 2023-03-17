@@ -5,9 +5,9 @@ export default function CatSelector({ cat }) {
   const dispatch = useViewDispatch();
 
   return (
-    <li>
+    <li className="px-[4%] md:px-0 md:w-25 border-r-0 border-zinc-500 last:border-r-0">
       <button
-        className={`${viewContext.view === cat && 'text-white'}`}
+        className={`${viewContext.view === cat && 'text-white'} md:w-16 `}
         onClick={() => {
           if (viewContext.view === cat) {
             dispatch({
