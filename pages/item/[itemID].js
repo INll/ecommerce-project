@@ -1,11 +1,15 @@
 import * as React from 'react';
-import ProfilePage from '../../../components/ProfilePage';
-import Layout from '../../../components/Layout';
+import { useRouter } from 'next/router';
+import Layout from '../../components/Layout';
+import ItemPage from '../../components/Item';
 
 export default function Profile() {
+  const router = useRouter();
+  const { itemID } = router.query;
+
   return (
     <>
-      <ProfilePage />
+      <ItemPage itemID={itemID}/>
     </>
   )
 }

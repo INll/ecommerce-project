@@ -63,8 +63,6 @@ export default function Navbar() {
     user = validationResults.user;
     console.log(validationResults);
 
-    // initializeAnimation();
-
     if (validationStatus === 'failed'){
       dispatch({
         type: 'logout',
@@ -157,10 +155,12 @@ export default function Navbar() {
   return (
     <div className="relative">
       <nav className="bg-black w-[100%] fixed z-[100]">
-        <NextLink href="/" className="flex items-center justify-center gap-2 md:gap-4 w-100% md:pt-3">
+        <NextLink href="/" className="relative flex items-center justify-center gap-2 md:gap-4 w-100% md:pt-3">
           <div className='text-center w-auto text-xl tracking-widest font-extralight'>MANSWHERE</div>
           <img src="/ms-logo-white.png" alt="logo" className='object-cover w-24'/>
+          <div className='hidden sm:block sm:relative'><span className='absolute tracking-wider font-thin text-sm -left-3 w-56 -rotate-3'>Discover your Strong Suit.</span></div>
         </NextLink>
+        <div className='text-[0.76rem] text-center font-thin sm:hidden tracking-widest -mb-1'>Discover your strong suit.</div>
         <ul className='flex justify-evenly'>
           <NextLink href="/">
             <li className='block px-4 pb-2 pt-4 transition-all duration-200 border-transparent border-b-[3px] hover:border-white cursor-pointer'>
@@ -182,7 +182,7 @@ export default function Navbar() {
                 ? (session.user.clearance === 2
                     ? <NextLink href="/profile/admin"><li className='px-4 pb-2 pt-4 transition-all duration-200 border-transparent border-b-[3px] 
                     hover:border-white'>管理面板</li></NextLink>
-                    : <NextLink href="/profile"><li className='px-4 pb-2 pt-4 transition-all duration-200 border-transparent border-b-[3px] 
+                    : <NextLink href={`/profile/${session.user.userName}`}><li className='px-4 pb-2 pt-4 transition-all duration-200 border-transparent border-b-[3px] 
                     hover:border-white'>個人主頁</li></NextLink>
                   )
                 : <li><button className='px-4 pb-2 pt-4 transition-all duration-200 border-transparent border-b-[3px]

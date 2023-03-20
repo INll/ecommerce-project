@@ -1,15 +1,11 @@
 import { useAuthDispatch, useAuthState } from "../../contexts";
 import { useMutation } from "react-query";
-import { useViewContext } from "./ViewContext";
 import { useRouter } from 'next/router';
-import axios from "axios";
+import axios from 'axios';
 
-export default function ShopItem({ item, catDict }) {
-
+export default function Recommendation({ item, catDict }) {
+  
   const router = useRouter();
-
-  const viewContext = useViewContext();
-  const itemCategory = catDict[item.itemType];
 
   const session = useAuthState();
   const dispatch = useAuthDispatch();
@@ -42,15 +38,13 @@ export default function ShopItem({ item, catDict }) {
 
   return (
     <>
-      <li className={`${viewContext.view === '' ? 'inline ' : (viewContext.view === itemCategory ? 'inline ' : 'hidden ')} 
-      flex flex-col w-full sm:w-fit h-[30rem] sm:h-[27rem] md:h-[25rem] bg-stone-700/20 rounded-[0.375rem] backdrop-blur-sm sm:backdrop-blur-md cursor-pointer`}
+      <li className={`flex flex-col w-full sm:w-fit h-[20rem] sm:h-[27rem] md:h-[25rem] bg-stone-700/20 rounded-[0.375rem] backdrop-blur-sm sm:backdrop-blur-md cursor-pointer`}
       onClick={(e) => (e.target.name === 'likeButton') ? null : router.push(`/item/${item._id}`) }
       >
-        <img className="h-72 object-cover sm:h-fit" src={item.images.url} alt={`${item.title}`} />
+        <img className="h-40 object-contain sm:h-fit" src={item.images.url} alt={`${item.title}`} />
         <div className="flex flex-col justify-between md:overflow-hidden px-5 pt-3 h-full">
           <div>
-            <div className="text-3xl h-fit sm:text-xl">{item.title}</div>
-            <div className="sm:absolute text-xl text-zinc-400">{itemCategory}</div>
+            <div className="text-2xl h-fit sm:text-xl">{item.title}</div>
           </div>
           <div className="flex justify-between">
             {/* if logged in -> if a addToFav is in progress -> if this item is in favItems*/}
@@ -63,7 +57,6 @@ export default function ShopItem({ item, catDict }) {
                     ? <img src="/heart-full.png" name='likeButton' id='unlikeButton' alt="remove from favourite button"
                           className={`relative top-6 w-[1.5rem] h-[1.5rem] transition-all overflow-hidden hover:w-[1.7rem] hover:h-[1.7rem] hover:-translate-y-[0.1rem] hover:-translate-x-[0.1rem]`}
                           onClick={(e) => {
-                            console.log(e.target);
                             mutate({
                               user: session.user,
                               item: item,
@@ -73,7 +66,6 @@ export default function ShopItem({ item, catDict }) {
                     : <img src="/heart-white.png" name='likeButton' id='likeButton' alt="add to favourite button"
                         className={`relative top-6 w-[1.5rem] h-[1.5rem] transition-all overflow-hidden hover:w-[1.7rem] hover:h-[1.7rem] hover:-translate-y-[0.1rem] hover:-translate-x-[0.1rem]`}
                         onClick={(e) => {
-                          console.log(e.target.id);
                           mutate({ 
                             user: session.user, 
                             item: item, 
@@ -81,8 +73,8 @@ export default function ShopItem({ item, catDict }) {
                           })}}
                       />
                   )
-              )
-            : <div></div>
+                )
+              : <div></div>
             }
             <div className="flex justify-end py-4 sm:pb-4 items-end text-4xl font-bold before:content-['港幣'] before:relative before:md:right-1 before:right-2
             before:text-lg before:font-normal before:text-zinc-400">{item.price}</div>

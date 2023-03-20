@@ -81,7 +81,7 @@ export default async function middleware(req) {
       response.cookies.set({ 
         name: 'validationResults',
         value: JSON.stringify({
-          result: 'failed',
+          result: 'signedOut',  // failed?
           user: false
         }),
       });
