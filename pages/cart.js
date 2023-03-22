@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useRouter } from 'next/router';
-import Layout from '../../components/Layout';
-import ProfilePage from '../../components/UserProfile';
-import useCartDispatch from '../../contexts/AnimationContext';
+import Layout from '../components/Layout';
+import ProfilePage from '../components/UserProfile';
+import { Cart } from '../components';
 
 export default function Profile() {
   const router = useRouter();
@@ -10,7 +10,7 @@ export default function Profile() {
 
   return (
     <>
-      <ProfilePage userName={userName}/>
+      <Cart userName={userName}/>
     </>
   )
 }

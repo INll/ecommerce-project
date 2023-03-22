@@ -55,12 +55,11 @@ export default function ItemGrid() {
           <div className="sticky top-[40%] sm:top-[10%] opacity-[0.15] flex justify-center">
             <Image src={catBg} alt='background image using logo of MANSWHERE' quality={100} className='absolute'/>
           </div>
-          <ul className='relative gap-12 min-[531px]:gap-4 py-6 grid grid-cols-[repeat(auto-fill,minmax(12rem,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(11.4rem,1fr))]'>
+          <div className='relative gap-12 min-[531px]:gap-4 py-6 grid grid-cols-[repeat(auto-fill,minmax(12rem,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(11.4rem,1fr))]'>
             <Skeleton />
-          </ul>
+          </div>
         </div>
       </>
-      
     );
   };
 

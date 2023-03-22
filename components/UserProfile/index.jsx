@@ -5,6 +5,7 @@ import SideLink from './SideLink';
 import { useAuthDispatch, useAuthState } from '../../contexts';
 import * as Scroll from 'react-scroll';
 import Image from 'next/image';
+import * as cartContext from '../../contexts/cartContext';
 
 let ScrollLink = Scroll.Link;
 let Element = Scroll.Element;
@@ -19,6 +20,8 @@ export default function ProfilePage({ userName }) {
   const router = useRouter();
   const dispatch = useAuthDispatch();
   const session = useAuthState();
+
+  const cartDispatch = cartContext.useCartDispatch();
 
   // detect if an element is in view
   const [ inView, setInView ] = useState({
@@ -84,7 +87,10 @@ export default function ProfilePage({ userName }) {
         router.push('/');
       }
       console.log('successfully logged out');
-      // localStorage.setItem('playedPromptAnimation', false);
+      cartDispatch({
+        type: 'clearedCart',
+        payload: null
+      });
     } catch (err) {
       handleError(err);
     }

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
-import { Link, scroller } from 'react-scroll';
-import LoginModal from './LoginModal/index';
-import { useAuthState, useAuthDispatch } from "../contexts";
+import { scroller } from 'react-scroll';
+import LoginModal from '../LoginModal/index';
+import { useAuthState, useAuthDispatch } from "../../contexts";
 import { useRouter } from 'next/router';
 import { getCookie } from 'cookies-next';
 import * as NextLink from 'next/link';
+import CartIcon from './CartIcon';
+import { useCartDispatch } from '../../contexts/cartContext';
 
 export default function Navbar() {
 
@@ -16,9 +18,7 @@ export default function Navbar() {
   const [ animated, setAnimated ] = useState(false);
   const router = useRouter();
 
-
   // console.log('animated outside of useEffect ' + animated);
-  
   
   function removeThis(e) {
     document.getElementById(e.target.id).remove();
@@ -31,6 +31,9 @@ export default function Navbar() {
   // read context
   const dispatch = useAuthDispatch();
   const session = useAuthState(); 
+
+  const cartDispatch = useCartDispatch();
+
 
   let validationStatus = '';
   let user = '';
@@ -98,6 +101,13 @@ export default function Navbar() {
         }
       })
       console.log('login status set');
+      let localStorageCart = localStorage.getItem('cart');
+      if (localStorageCart !== null) {
+        cartDispatch({
+          type: 'restoredItems',
+          payload: localStorageCart
+        })
+      }
     }
   }, []);
 
@@ -132,10 +142,8 @@ export default function Navbar() {
       setAnimated(true);
       window.dispatchEvent(new Event('storage'));
       console.log('=====');
-     } 
-    // console.log('animated in useEffect ' + animated);
+     }
   }, [session]);
-
 
   const [modalIsActive, setModalIsActive] = useState(false);
   const [loginTemp, setLoginTemp] = useState({
@@ -242,7 +250,7 @@ export default function Navbar() {
             )
           : null
         }
-      <img src="/shopping-cart-white.png" alt="shopping cart icon" className='absolute h-[50px] top-[5%] right-[0.4rem] transition-translate duration-100 hover:-translate-x-1 px-5 py-2'/>
+      <CartIcon />
       </nav>
       <div className='h-[6.7rem]'></div>
     </div>

@@ -6,6 +6,7 @@ import { useAuthDispatch, useAuthState } from '../../contexts';
 import Recommendation from './Recommendation';
 import Skeleton from './Skeleton';
 import Image from 'next/image';
+import AddToCart from './AddToCart';
 
 const catDict = { 
   'shoes': '鞋',
@@ -122,6 +123,7 @@ export default function ItemPage({ itemID }) {
               }
             </div>
           </div>
+          <AddToCart itemID={itemID} itemDetails={data?.data}/>
           {(session.user !== 'signed out' && session.user !== false)
             ? (mutation.isLoading   //mutation.isLoading
               ? <button className={`my-8 flex justify-center font-bold -right-0 sm:right-[0%] md:right-20 bottom-[2.2rem] border-[2px] rounded-[0.275rem] border-red-500 tracking-wide active:border-red-800 py-[0.62rem] px-5 transition-colors bg-red-500 active:bg-red-600`}>
@@ -131,9 +133,8 @@ export default function ItemPage({ itemID }) {
                   </svg>
                 </button>
               : (session.user.favItems.includes(itemID)
-                ? <button name='unlikeButton' id='unlikeButton' className={`my-8 font-bold -right-0 sm:right-[0%] md:right-20 bottom-[2.2rem] border-[2px] rounded-[0.275rem] border-red-500 tracking-wide active:border-red-800 py-2 px-5 transition-colors bg-red-500 active:bg-red-600`}
+                ? <button name='unlikeButton' id='unlikeButton' className={`my-8 font-bold -right-0 sm:right-[0%] md:right-20 bottom-[2.2rem] border-[2px] rounded-[0.275rem] border-red-500 tracking-wide active:border-red-800 py-2 px-5 transition-colors hover:bg-red-500 active:bg-red-600`}
                     onClick={(e) => {
-                      console.log(e.target.name);
                       mutation.mutate({
                         user: session.user,
                         item: data.data,
@@ -142,7 +143,6 @@ export default function ItemPage({ itemID }) {
                   >已加至我的最愛</button>
                 : <button name='likeButton' id='likeButton' className={`my-8 font-bold -right-0 sm:right-[0%] md:right-20 bottom-[2.2rem] border-[2px] rounded-[0.275rem] border-red-500 tracking-wide active:border-red-800 py-2 px-5 transition-colors hover:bg-red-500 active:bg-red-600`}
                     onClick={(e) => {
-                      console.log(e.target.name);
                       mutation.mutate({
                         user: session.user,
                         item: data.data,

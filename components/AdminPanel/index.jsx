@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import { useAuthDispatch, useAuthState } from '../../contexts';
 import * as Scroll from 'react-scroll';
 import Image from 'next/image';
+import * as cartContext from '../../contexts/cartContext';
 
 let ScrollLink = Scroll.Link;
 let Element = Scroll.Element;
@@ -18,9 +19,12 @@ function handleError (err, res) {
 }
 
 export default function AdminProfilePage() {
+
   const router = useRouter();
   const dispatch = useAuthDispatch();
   const session = useAuthState();
+  
+  const cartDispatch = cartContext.useCartDispatch();
 
   const [ inView, setInView ] = useState({
     zerothSecHeading: false,
@@ -84,7 +88,10 @@ export default function AdminProfilePage() {
         router.push('/');
       }
       console.log('successfully logged out');
-      // localStorage.setItem('playedPromptAnimation', false);
+      cartDispatch({
+        type: 'clearedCart',
+        payload: null
+      })
     } catch (err) {
       handleError(err);
     }
