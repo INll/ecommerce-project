@@ -36,7 +36,7 @@ export default function Hero() {
         <div className='justify-self-center sm:flex gap-5 sm:items-center'>
           <img src="/delivery-truck-white.png" alt="free shipping on purchase above 700hkd" className='h-[70px]'/>
           <div className='flex flex-col items-center sd:block relative mb-2 sd:mb-0'>
-            <div>滿 700</div>
+            <div>滿 400</div>
             <div>免運費</div>
           </div>
         </div>

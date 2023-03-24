@@ -24,7 +24,7 @@ export default async function handler(req, res) {
         // result.userName returns 'new ObjectId('xxxxxxx'), need to convert to string to use in findById()
         let username = await User.findById(result.userName.toString(), 'userName');
         // get item infos on all items in an order
-        const objectIdArr = result.itemID.map(item => item.itemid.toString());
+        const objectIdArr = result.itemID.map(item => item.itemid.toString());  // TODO: If 
         const amountArr = result.itemID.map(item => item.amount);
         const itemResults = await Item.find({
           _id: { $in: objectIdArr }  // items where _id match at least one of $in

@@ -18,7 +18,7 @@ export default function ShopItem({ item, catDict }) {
     const path = reqPayload.buttonId === 'likeButton' ? 'likeItem' : 'unlikeItem';
     return await axios.post(`/api/protected/post/${path}`, reqPayload);
   }, { onSuccess: (res) => {
-    switch(res.data.result) {
+    switch (res.data.result) {
       case 0:
         throw new Error(res.data.message);
       case 1:

@@ -65,7 +65,7 @@ export default function ItemForm() {
         case 0:  // unknown error
           setPrompt('未知錯誤, 請再試一次。');
           break;
-        case 1:  // success          // TODO: Insert item URL after prompt
+        case 1:  // success
           setPrompt(`商品新增成功! `);
           break;
         case 2:  // reached upload limit
@@ -86,12 +86,6 @@ export default function ItemForm() {
     <>
       <div className='bg-stone-700/20 h-fit rounded-b-[0.25rem] rounded-tr-[0.25rem] relative'>
         <div className="flex absolute items-end bottom-[100%] gap-1">
-          {/* <button onClick={handleToggleView} 
-            className={`${isViewing ? 'bg-stone-600/[0.05] text-gray-400' : 'pointer-events-none'} bg-stone-700/20 h-11 text-xl px-8 rounded-t-md 
-            hover:bg-gradient-to-b from-stone-400/20 via-stone-600/20 to-stone-700/20`}>新 增</button>
-          <button onClick={handleToggleView} 
-            className={`${isViewing ? 'pointer-events-none' : 'bg-stone-600/[0.05] text-gray-400'} bg-stone-700/20 h-11 text-xl px-8 rounded-t-md 
-            hover:bg-gradient-to-b from-stone-400/20 via-stone-600/20 to-stone-700/20`}>瀏 覽</button> */}
           </div>
           <Formik
             validateOnBlur={false}

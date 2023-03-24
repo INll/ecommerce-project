@@ -43,7 +43,7 @@ function cartReducer(cart, action) {
       };
     case 'increasedQty':
       return cart.map((item) => {
-        if (item.id === action.payload.id) {
+        if (item.id === action.payload.id && item.qty < 99) {
           return { ...item, qty: item.qty++ };
         } else return item;
       });
@@ -53,9 +53,16 @@ function cartReducer(cart, action) {
           return { ...item, qty: item.qty-- };
         } else return item;
       });
+    case 'changedToQty':
+      return cart.map((item) => {
+        if (item.id === action.payload.id) {
+          return { ...item, qty: action.payload.newQty };
+        } else return item;
+      })
     case 'deletedItem':
       return cart.filter((item) => item.id !== action.payload.id);
-    case 'clearedCart':  // on log out
+    case 'clearedCart':  // on log out, order completion
+      localStorage.removeItem('cart');
       return [];
     case 'restoredItems':  // on refresh
       return JSON.parse(action.payload);

@@ -41,7 +41,7 @@ export default function ItemGrid() {
     'outers': '外套'
   }
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError } = useQuery({  // fires query when queryKeys change
     queryKey: ['/api/public/fetch/catalogue', { limit: ITEM_FETCH_MAX_AMOUNT, sort: sortContext.sort }],
     queryFn: fetchItemQueryFn 
     }

@@ -68,10 +68,6 @@ export default function OrderForm() {
     id3: Yup.string().min(formReqs.id3.min, `格式錯誤, 請核對字符數。`).required(`格式錯誤, 請核對字符數。`)
   });
 
-  // useEffect(() => {
-  //   console.log(isDone);
-  // })
-
   return (
     <>
       <div className='relative bg-stone-700/20 flex items-center min-h-[16rem] rounded-b-[0.25rem] rounded-tr-[0.25rem]'>
