@@ -26,13 +26,13 @@ export default async function handler(req, res) {
       const key = new TextEncoder().encode(constants.jwtSecret);
       const { payload } = await jose.jwtVerify(token, key);
       
-      // req.body [0]: object containing cart arr  |  [1]: user object
+      // req.body [0]: object containing cart arr  |  [1]: user object  |  [2]: total price
       if (payload.payload.userName !== req.body[1].userName) {
         return res.status(401).json({ message: `Disagreeing credentials`, result: 2 })
       };
 
       // extract all order items into id and qty pairs and check order validity
-      let idQty = req.body[0].cart.map((item) => ({ id: item.id, qty: item.qty }));
+      let idQty = req.body[0].cart.map((item) => ({ id: item.id, qty: item.qty, details: item.details }));
       
       // check if all order items exist 
       let ifExist = await Promise.all(idQty.map((element) => {
@@ -61,7 +61,7 @@ export default async function handler(req, res) {
       }
 
       // create an order
-      let orderItems = idQty.map((obj) => ({ itemid: mongoose.Types.ObjectId(obj.id), amount: obj.qty }));
+      let orderItems = idQty.map((obj) => ({ itemid: mongoose.Types.ObjectId(obj.id), amount: obj.qty, title: obj.details.title, url: obj.details.images.url, unitPrice: obj.details.price }));
       let orderID = orderid().generate();
       let regex = /-/gi;  // orderID is stored as number, this removes all dashes in xxxx-xxxxxx-xxxx that orderid generates
       let orderIDInt = orderID.replace(regex, '');
@@ -71,6 +71,7 @@ export default async function handler(req, res) {
         userName: mongoose.Types.ObjectId(payload.payload._id),  // userName stores userID, not username in string
         orderID: orderIDInt,
         itemID: orderItems,
+        total: req.body[2],
       })
       return res.status(200).json({ message: `Order ${newOrder} has been created!`, result: 1, orderID: orderID });
     } else {

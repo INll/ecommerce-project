@@ -158,13 +158,18 @@ export default function ItemPage({ itemID }) {
               你可能會喜歡的
               <span className='pl-3'>{`${catDict[data?.data.itemType]}`}</span>
             </div>
-            <ul className='relative gap-12 min-[531px]:gap-4 py-6 grid grid-cols-[repeat(auto-fill,minmax(12rem,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(11.4rem,1fr))]'>
-              {data?.extra.map((item, index) => {
-                return (
-                  <Recommendation key={index} item={item} catDict={catDict}/>
-                )
-              })}
-            </ul>
+              {data?.extra.length > 0 
+                  ? 
+                  <ul className='relative gap-12 min-[531px]:gap-4 py-6 grid grid-cols-[repeat(auto-fill,minmax(12rem,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(11.4rem,1fr))]'>
+                    {data?.extra.map((item, index) => {
+                      return (
+                      <Recommendation key={index} item={item} catDict={catDict}/>
+                      )
+                    })}
+                  </ul>
+                :
+                <div className='flex justify-center tracking-wider text-neutral-400 pt-28 pb-10 text-2xl'>更多精選產品即將登場!</div>
+              }
           </div>
         </div>
       </div>

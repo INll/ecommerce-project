@@ -11,15 +11,14 @@ export const config = {
 
 const privateRoutes = [
   '/profile/admin',
-  '/api/admin/fetch/dashboard'
 ]
 
 const protectedRoutes = [
-  '/profile',
+  /^\/profile(?!.*admin$).*/,
 ]
 
 const unprotectedRoutes = [
-  '/'
+  /^\/$/,
 ]
 
 export default async function middleware(req) {
@@ -32,10 +31,10 @@ export default async function middleware(req) {
     (privateRoutes.some((path) => pathname === path)) || (pathname.startsWith('/api/admin'));
   
   const includesProtectedRoute = 
-    protectedRoutes.some((path) =>(pathname === path)) || (pathname.startsWith('/api/protected'));
+    protectedRoutes.some((regex) => regex.test(pathname)) || (pathname.startsWith('/api/protected'));
 
   const includesUnprotectedRoute = 
-    unprotectedRoutes.some((path) => pathname === path) || (pathname.startsWith('/api/public'));
+    unprotectedRoutes.some((regex) => regex.test(pathname)) || (pathname.startsWith('/api/public'));
 
   // verify jwt but let request pass regardless
   if (includesUnprotectedRoute) {

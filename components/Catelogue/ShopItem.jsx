@@ -42,14 +42,14 @@ export default function ShopItem({ item, catDict }) {
 
   return (
     <>
-      <li className={`${viewContext.view === '' ? 'inline ' : (viewContext.view === itemCategory ? 'inline ' : 'hidden ')} 
-      flex flex-col w-full sm:w-fit h-[30rem] sm:h-[27rem] md:h-[25rem] bg-stone-700/20 rounded-[0.375rem] backdrop-blur-sm sm:backdrop-blur-md cursor-pointer`}
+      <button className={`${viewContext.view === '' ? 'inline ' : (viewContext.view === itemCategory ? 'inline ' : 'hidden ')} 
+      flex flex-col w-full sm:w-fit h-[30rem] sm:h-[27rem] md:h-[25rem] bg-stone-700/20 rounded-[0.375rem] backdrop-blur-sm sm:backdrop-blur-md cursor-pointer hover:scale-[1.03] active:scale-[0.98] transition-all duration-500`}
       onClick={(e) => (e.target.name === 'likeButton') ? null : router.push(`/item/${item._id}`) }
       >
         <img className="h-72 object-cover sm:h-fit" src={item.images.url} alt={`${item.title}`} />
-        <div className="flex flex-col justify-between md:overflow-hidden px-5 pt-3 h-full">
+        <div className="flex flex-col justify-between md:overflow-hidden px-5 pt-3 w-full h-full">
           <div>
-            <div className="text-3xl h-fit sm:text-xl">{item.title}</div>
+            <div className="text-3xl h-fit text-left sm:text-xl">{item.title}</div>
             <div className="sm:absolute text-xl text-zinc-400">{itemCategory}</div>
           </div>
           <div className="flex justify-between">
@@ -88,7 +88,7 @@ export default function ShopItem({ item, catDict }) {
             before:text-lg before:font-normal before:text-zinc-400">{item.price}</div>
           </div>
         </div>
-      </li>
+      </button>
     </>
   )
 }

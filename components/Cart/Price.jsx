@@ -1,17 +1,27 @@
-import React from 'react'
+import { useEffect } from 'react';
 import { useCartState } from '../../contexts/cartContext';
 
-export default function Price() {
+export default function Price({ setTotal }) {
 
   const cart = useCartState();
   const shipping = 50;
   const freeShippingThreshold = 400;
+  let total;
 
   let subTotal = cart.map((item) => item.details.price * item.qty).reduce((a, b) => a + b);
+  if (subTotal >= freeShippingThreshold) {
+    total = subTotal;
+  } else {
+    total = subTotal + shipping;
+  }
+
+  useEffect(() => {
+    setTotal(() => total);
+  }, [total])
 
   return (
-    <div className='relative pl-[20%] sm:pl-auto right-[10%] gap-5 w-full flex flex-col items-end'>
-      <div className='w-full sm:w-[55%] flex flex-col text-lg'>
+    <div className='relative px-[10%] sm:px-[0%] lg:px-[10%] lg:pt-8 gap-5 w-full flex flex-col items-end'>
+      <div className='w-full sm:w-[55%] lg:w-full flex flex-col text-lg'>
         <div className='flex justify-between items-center'>
           <span className=''>小計</span>
           <span>
@@ -29,7 +39,7 @@ export default function Price() {
           </span>
         </div>
       </div>
-      <div className='border-b-2 w-full sm:w-[60%]'></div>
+      <div className='border-b-2 w-full sm:w-[60%] lg:w-full'></div>
       <div className='text-2xl'>
         總付<span className='font-bold text-4xl mx-3'>{subTotal >= freeShippingThreshold ? subTotal : subTotal + shipping }</span>HKD
       </div>

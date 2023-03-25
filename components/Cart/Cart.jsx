@@ -9,7 +9,7 @@ import { useCartState, useCartDispatch } from '../../contexts/cartContext';
 import { useAnimationState, useAnimationDispatch } from '../../contexts/AnimationContext';
 import CartContent from './CartContent';
 import Price from './Price';
-import Pay from './Pay'
+import Pay from './Pay';
 
 function handleError (err, res) {
   console.log(`Error: ${err}`);
@@ -23,6 +23,7 @@ export default function ItemPage({ prop }) {
     errMsg: null,
     details: null
   });
+  const [total, setTotal] = useState('');
 
   // map to response result code
   const errorMessages = [
@@ -49,7 +50,7 @@ export default function ItemPage({ prop }) {
 
   // submit order
   const mutation = useMutation(async (cart) => {
-    return await axios.post('/api/protected/post/order/create', [ cart, session.user ])
+    return await axios.post('/api/protected/post/order/create', [ cart, session.user, total ])
   }
   , { onSuccess: (res) => {
     console.log(res);
@@ -103,42 +104,42 @@ export default function ItemPage({ prop }) {
           </p>
           {mutation.isSuccess
             ? <div className='flex flex-col justify-center items-center py-10 text-2xl h-[80%]'>
-                <div className=''>訂單編號: </div>
+                <div>訂單編號: </div>
                 <div className='py-16 tracking-wider text-3xl sm:text-5xl font-bold'>
-                  1234-567890-1234
+                  {orderId}
                 </div>
-                <div className='px-10 text-center text-xl sm:text-3xl'>
-                  前往 <Link href={`/profile/${session.user.userName}`}><i><u>個人主頁</u></i></Link> 以查看訂單, 或返回 <Link href='/'><i><u>首頁</u></i></Link> 以瀏覽更多商品
+                <div className='px-10 text-center text-xl'>
+                  前往 <Link href={`/profile/${session.user.userName}`}><i><u>個人主頁</u></i></Link> 以查看最近訂單, 或返回 <Link href='/'><i><u>首頁</u></i></Link> 以瀏覽更多商品
                 </div>
               </div>
             : (mutation.isError 
                 ? <div className='flex flex-col justify-center items-center py-10 text-2xl h-[80%]'>
                     <div className='px-[10%] text-center text-base sm:text-2xl py-10 text-zinc-200'>{err.errMsg}</div>
-                    <div>
+                    <div className='py-5 text-2xl'>
                       {err.details.map((item) => {
                         return (
-                          <span className='font-bold'>{item.title}</span>
+                          <span className='font-bold'>{item.title} (改爲{item.stock})</span>
                         )
                       })}
                     </div>
-                    <button onClick={() => mutation.reset()} className='px-[10%] text-center text-xl sm:text-2xl my-16 text-zinc-200'>
+                    <button onClick={() => mutation.reset()} className='px-[10%] text-center text-xl sm:text-2xl my-9 text-zinc-200'>
                       <u>返回購物車</u></button>
                   </div>
-                : <>
+                : <div className='relative px-[0%] sm:px-[10%] lg:px-[5%] w-full flex flex-col lg:flex-row lg:justify-center lg:align-center'>
                     <CartContent />
                       {(session.user !== 'signed out' && session.user !== false )
                         ? (cart.length > 0) 
-                          ? ( <>
-                                <Price />
+                          ? ( <div className='lg:flex lg:flex-col lg:basis-[50%] lg:ml-5'>
+                                <Price setTotal={setTotal}/>
                                 <Pay mutation={mutation}/>
-                              </>
+                              </div>
                             )
                           : <Link href='/'>
-                              <div className='text-xl'><i><u>前住首頁瀏覽商品</u></i></div>
+                              <div className='text-xl text-center lg:absolute lg:top-[120%] lg:text-left lg:left-[42%]'><i><u>前住首頁瀏覽商品</u></i></div>
                             </Link>
                         : null
                       }
-                  </>
+                  </div>
               )
           }
         </div>

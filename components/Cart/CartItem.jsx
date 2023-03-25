@@ -2,9 +2,11 @@ import { useEffect, useRef } from 'react';
 import { useCartDispatch } from '../../contexts/cartContext';
 import { useAnimationDispatch, useAnimationState } from '../../contexts/AnimationContext';
 import { motion, useAnimation } from 'framer-motion';
-
+import { useRouter } from 'next/router';
 
 export default function Cartdetails({ qty, details }) {
+
+  const router = useRouter();
 
   const cartDispatch = useCartDispatch();
   const animationStates = useAnimationState();
@@ -36,6 +38,12 @@ export default function Cartdetails({ qty, details }) {
         cartDispatch({ type: 'savedToLocalStorage', payload: null })
       }, 150);
     }
+  };
+
+  function handleDirectToItem(e) {
+    if (e.target.className.includes('directToItem')) {
+      router.push(`/item/${details._id}`);
+    };
   };
 
   function selectOptions(max) {
@@ -83,17 +91,18 @@ export default function Cartdetails({ qty, details }) {
   ])
 
   return (
-    <motion.li className='grid grid-cols-12 sm:pr-3 md:pr-4 sm:justify-center sm:detailss-center border-2 border-transparent bg-stone-700/80 rounded-[0.275rem] w-[100%] text-center'
+    <motion.li className='grid grid-cols-12 sm:pr-3 md:pr-4 sm:justify-center border-2 border-transparent bg-stone-700/80 rounded-[0.275rem] w-[100%] text-center'
       animate={controlsCard}
     >
-      {/* onClick={() => router.push(`/details/${details._id}`)} */}
       {/* img tag determines height, negative margin compensates border-2 */}
-      <div name='directToItem' className='col-span-3 w-full flex sm:justify-center'>
-        <img name='directToItem' className={`h-28 -my-[2px] object-contain rounded-t-[0.275rem] sm:rounded-tr-none sm:rounded-l-[0.275rem] sm:ml-[2px] sm:col-span-3`} id={details._id} src={details.images.url} alt={`Image of ${details.title}`}/>
+      <div name='directToItem' className='col-span-3 w-full flex sm:justify-center cursor-pointer'
+        onClick={handleDirectToItem}
+      >
+        <img name='directToItem' className={`h-28 -my-[2px] object-contain rounded-t-[0.275rem] sm:rounded-tr-none sm:rounded-l-[0.275rem] sm:ml-[2px] sm:col-span-3 cursor-pointer`} id={details._id} src={details.images.url} alt={`Image of ${details.title}`}/>
       </div>
-      <div name='directToItem' className='flex flex-col relative justify-center col-span-5'>
-        <div name='directToItem' className='px-4'>{details.title}</div>
-        <div name='directToItem' className='text-xl font-bold'><span className='text-sm text-zinc-400'>港幣</span>&nbsp;{(details.price * qty).toString()}</div>
+      <div className='flex flex-col relative justify-center col-span-5 cursor-pointer'>
+        <div className='directToItem px-4 hover:font-bold hover:underline' onClick={handleDirectToItem} >{details.title}</div>
+        <div className='text-xl font-bold'><span className='text-sm text-zinc-400'>港幣</span>&nbsp;{(details.price * qty).toString()}</div>
       </div>
       <div className='col-span-2 flex flex-col justify-center'>
         <button className='hidden sm:flex sm:justify-center sm:items-center flex-1 active:translate-y-[0.15rem] active:bg-stone-800/40 transition-all duration-150' name={`increaseQty_${details._id}`} onClick={handleChangeQty}>

@@ -62,10 +62,12 @@ export default function OrderForm() {
     }
   };
 
+  const isNotANumber = /^\D$/;  // input type = string, number escapes zeros
+
   const querySchema = Yup.object().shape({
     id1: Yup.string().min(formReqs.id1.min, `格式錯誤, 請核對字符數。`).required(`格式錯誤, 請核對字符數。`),
     id2: Yup.string().min(formReqs.id2.min, `格式錯誤, 請核對字符數。`).required(`格式錯誤, 請核對字符數。`),
-    id3: Yup.string().min(formReqs.id3.min, `格式錯誤, 請核對字符數。`).required(`格式錯誤, 請核對字符數。`)
+    id3: Yup.string().min(formReqs.id3.min, `格式錯誤, 請核對字符數。aa`).required(`格式錯誤, 請核對字符數。`)
   });
 
   return (
@@ -97,7 +99,7 @@ export default function OrderForm() {
               }
               {isDone
                 ? isSuccess  // can either display order details or error message
-                  ? <div className='w-[80%]'>
+                  ? <div className='w-[80%] py-9'>
                       <OrderDetails orderDetails={response.orderDetails} user={response.username}/>
                       <ul className='mt-8 sm:mt-5 mb-10 grid grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] sm:flex sm:flex-col justify-center items-center h-fit gap-[1.5rem] sm:gap-[0.7rem]'>
                         <ul className='hidden sm:static sm:visible pr-4 sm:grid sm:grid-cols-12 w-full h-10 text-center items-center text-lg'>
@@ -140,10 +142,10 @@ export default function OrderForm() {
                     <div className="relative flex flex-col md:flex-row mb-4 justify-center items-center gap-3 w-full h-fit mt-4">
                     <div className='md:hidden mb-2 mt-4 text-base'>第一部分</div>
                       {/* maxLength does not work on type='number': https://stackoverflow.com/a/34641129/17974101 */}
-                      <Field type='number' name='id1' id='id1' className='rounded pl-3 pb-1 h-[3.2rem] text-4xl bg-stone-600/40 w-[6.75rem] font-medium'
+                      <Field type='string' name='id1' id='id1' className='rounded pl-3 pb-1 h-[3.2rem] text-4xl bg-stone-600/40 w-[6.75rem] font-medium'
                         onChange={handleChange} value={values.id1}
                         onInput={(e) => {e.target.value = e.target.value.slice(0, 4)}}                // slice to only four digits
-                        onKeyDown={(e) => {(e.key === 'e' || e.key === '.') && e.preventDefault()}}   // prevent entering 'e' or '.'
+                        onKeyDown={(e) => {(isNotANumber.test(e.key) && e.preventDefault())}}         // prevent entering non-digit chars
                         onWheel={(e) => e.target.blur()}                                              // prevent wheel from changing value
                       />
                       {(errors.id1 || errors.id2 || errors.id3)
@@ -151,18 +153,18 @@ export default function OrderForm() {
                         : null}
                       <div className='hidden md:inline-block pb-2 text-4xl'>-</div>
                       <div className='md:hidden mb-2 mt-4 text-base'>第二部分</div>
-                      <Field type='number' name='id2' id='id2' className='rounded pl-3 pb-1 h-[3.2rem] text-4xl bg-stone-600/40 w-[9.3rem] font-medium'
+                      <Field type='string' name='id2' id='id2' className='rounded pl-3 pb-1 h-[3.2rem] text-4xl bg-stone-600/40 w-[9.3rem] font-medium'
                         onChange={handleChange} value={values.id2}
                         onInput={(e) => {e.target.value = e.target.value.slice(0, 6)}}
-                        onKeyDown={(e) => {(e.key === 'e' || e.key === '.') && e.preventDefault()}}
+                        onKeyDown={(e) => {(isNotANumber.test(e.key) && e.preventDefault())}}
                         onWheel={(e) => e.target.blur()}
                       />
                       <div className='hidden md:inline-block pb-2 text-4xl'>-</div>
                       <div className='md:hidden mb-2 mt-4 text-base'>第三部分</div>
-                      <Field type='number' name='id3' id='id3' className='rounded pl-3 pb-1 h-[3.2rem] text-4xl bg-stone-600/40 w-[6.75rem] font-medium'
+                      <Field type='string' name='id3' id='id3' className='rounded pl-3 pb-1 h-[3.2rem] text-4xl bg-stone-600/40 w-[6.75rem] font-medium'
                         onChange={handleChange} value={values.id3}
                         onInput={(e) => {e.target.value = e.target.value.slice(0, 4)}}
-                        onKeyDown={(e) => {(e.key === 'e' || e.key === '.') && e.preventDefault()}}
+                        onKeyDown={(e) => {(isNotANumber.test(e.key) && e.preventDefault())}}
                         onWheel={(e) => e.target.blur()}
                       />
                     </div>

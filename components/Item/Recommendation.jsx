@@ -38,7 +38,7 @@ export default function Recommendation({ item, catDict }) {
 
   return (
     <>
-      <li className={`flex flex-col w-full sm:w-fit h-[20rem] sm:h-[27rem] md:h-[25rem] bg-stone-700/20 rounded-[0.375rem] backdrop-blur-sm sm:backdrop-blur-md cursor-pointer`}
+      <li className={`flex flex-col w-full sm:w-fit h-[20rem] sm:h-[27rem] md:h-[25rem] bg-stone-700/20 rounded-[0.375rem] backdrop-blur-sm sm:backdrop-blur-md hover:scale-[1.03] active:scale-[0.98] transition-all duration-500 cursor-pointer`}
       onClick={(e) => (e.target.name === 'likeButton') ? null : router.push(`/item/${item._id}`) }
       >
         <img className="h-40 object-contain sm:h-fit" src={item.images.url} alt={`${item.title}`} />
