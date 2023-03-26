@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { useAuthDispatch } from '@/contexts/AuthContext';
 import { useCartDispatch } from '@/contexts/CartContext';
 import { useEffect } from 'react';
+import { getCookie } from 'cookies-next';
 
 export default function useInitSession() {
 

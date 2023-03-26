@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
 import { scroller } from 'react-scroll';
 import LoginModal from '@/components/LoginModal/LoginModal';
-import { useAuthState } from "@/contexts/AuthContext";
+import { useAuthState, useAuthDispatch } from "@/contexts/AuthContext";
 import * as NextLink from 'next/link';
 import CartIcon from './CartIcon';
 import useInitSession from 'hooks/useInitSession';
@@ -13,7 +13,7 @@ export default function Navbar() {
   // Attemped to conditionally render (called useEffect()) components during hydration,
   // led to hydration result to be different than that of the initial HTML.
 
-  const [ hasMounted, setHasMounted ] = useState(false);
+    const [ hasMounted, setHasMounted ] = useState(false);
   const [ animated, setAnimated ] = useState(false);
 
   const session = useAuthState();
@@ -23,6 +23,7 @@ export default function Navbar() {
     document.getElementById(e.target.id).remove();
   }
 
+  useInitSession();
 
   function logMouseDown(e) {
     if (e.target.id === 'backdrop') {
