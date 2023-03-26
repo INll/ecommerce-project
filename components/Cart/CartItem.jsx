@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
-import { useCartDispatch } from '../../contexts/cartContext';
-import { useAnimationDispatch, useAnimationState } from '../../contexts/AnimationContext';
+import { useCartDispatch } from '@/contexts/CartContext';
+import { useAnimationDispatch, useAnimationState } from '@/contexts/AnimationContext';
 import { motion, useAnimation } from 'framer-motion';
 import { useRouter } from 'next/router';
 

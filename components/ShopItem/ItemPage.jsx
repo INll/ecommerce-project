@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useQuery, useMutation } from 'react-query';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import { useAuthDispatch, useAuthState } from '../../contexts';
+import { useAuthDispatch, useAuthState } from '@/contexts/AuthContext';
 import Recommendation from './Recommendation';
 import Skeleton from './Skeleton';
 import Image from 'next/image';

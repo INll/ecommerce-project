@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useCartState } from "../../contexts/cartContext";
-import { useAnimationState } from "../../contexts/AnimationContext";
+import { useCartState } from "@/contexts/CartContext";
+import { useAnimationState } from "@/contexts/AnimationContext";
 import { motion, useAnimation } from 'framer-motion';
 import Link from 'next/link';
 

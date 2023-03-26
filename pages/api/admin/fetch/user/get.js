@@ -1,6 +1,5 @@
-import dbConnect from '../../../../../lib/mongoose';
-import { userSchema } from '../../../../../../backend/Models/user';
-import mongoose from 'mongoose';
+import dbConnect from '@/lib/mongoose';
+import { User } from '@/models/user';
 
 function handleError (err, res) {
   console.error(`Error: ${err}`);
@@ -10,7 +9,6 @@ function handleError (err, res) {
 export default async function handler(req, res) {
   try {
     await dbConnect();
-    const User = mongoose.models.User || mongoose.model('User', userSchema);
 
     if (req.method === 'POST') {
       const result = await User.findOne({ userName: req.body.username }).exec();

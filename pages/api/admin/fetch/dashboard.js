@@ -1,9 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { setCookie, deleteCookie } from "cookies-next";
-import dbConnect from '../../../../lib/mongoose';
-import { userSchema } from '../../../../../backend/Models/user';
+import dbConnect from '@/lib/mongoose';
+import { userSchema } from '@/models/user';
 import mongoose from 'mongoose';
-import { countLastMonth, countThisMonth, countLast30Days } from '../../../../lib/aggregation';
+import { countLastMonth, countThisMonth, countLast30Days } from '@/lib/aggregation';
 
 function handleError (err) {
   console.error(`Error: ${err}`);

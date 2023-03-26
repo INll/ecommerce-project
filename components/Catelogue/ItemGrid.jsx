@@ -1,9 +1,9 @@
 import { useQuery } from 'react-query';
 import { useSortContext } from './SortContext';
-import { useAuthDispatch, useAuthState } from "../../contexts";
+import { useAuthDispatch } from "@/contexts/AuthContext";
 import ShopItem from './ShopItem';
 import Image from 'next/image';
-import catBg from '../../public/ms-logo-white.png';
+import catBg from '@/public/ms-logo-white.png';
 import axios from 'axios';
 import Skeleton from './Skeleton';
 

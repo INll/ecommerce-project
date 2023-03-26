@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useCartState } from '../../contexts/cartContext';
+import { useCartState } from '@/contexts/CartContext';
 
 export default function Price({ setTotal }) {
 

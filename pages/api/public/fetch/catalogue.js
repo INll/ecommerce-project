@@ -1,7 +1,7 @@
-import dbConnect from '../../../../lib/mongoose';
-import { ItemSchema } from '../../../../../backend/Models';
-import { userSchema } from '../../../../../backend/Models/user';
-import constants from '../../../../lib/constants';
+import dbConnect from '@/lib/mongoose';
+import { ItemSchema } from '@/models/item';
+import { userSchema } from '@/models/user';
+import constants from '@/lib/constants';
 import * as jose from 'jose';
 import mongoose from 'mongoose';
 

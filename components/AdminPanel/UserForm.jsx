@@ -96,14 +96,7 @@ export default function OrderForm() {
               {isDone
                 ? isSuccess  // can either display order details or error message
                   ? <div className='w-[80%]'>
-                      {console.log('==============================')}
-                      {console.log(response)}
                       <UserDetails userDetails={response}/>
-                        {/* {response.itemDetails.map((item) => {
-                          return (    
-                            <OrderItem item={item}/>
-                          )
-                        })} */}
                     </div>
                   : <div className='flex flex-col h-full w-full absolute bg-stone-800 z-10'>
                       <div className="flex flex-col justify-center items-center h-full w-full gap-3">

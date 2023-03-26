@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import { useAuthDispatch, useAuthState } from '../contexts';
-import { useQUery } from 'react-query';
+import { useAuthDispatch, useAuthState } from '@/context/';
+import { useQuery } from 'react-query';
 import * as Scroll from 'react-scroll';
 import Image from 'next/image';
 

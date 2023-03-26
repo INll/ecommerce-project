@@ -1,12 +1,11 @@
-import dbConnect from '../../../../../lib/mongoose';
-import { ItemSchema } from '../../../../../../backend/Models/item';
-import { userSchema } from '../../../../../../backend/Models/user.js';
-import constants from '../../../../../lib/constants';
+import dbConnect from '@/lib/mongoose';
+import { Item } from '@/models/item';
+import { User } from '@/models/user';
+import constants from '@/lib/constants';
 import formidable from 'formidable';
-import mongoose from 'mongoose';
 import * as jose from 'jose';
 import fs from 'fs';
-import { storage, analytics } from '../../../../../firebaseConfig';
+import { storage } from '@/firebaseConfig';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 export const config = {
@@ -55,9 +54,7 @@ async function handleUploadToFirebase(bytes, newFilename) {
 export default async function handler(req, res) {
   try {
     await dbConnect();  // use global connection
-    const Item = mongoose.models.Item || mongoose.model('Item', ItemSchema);
-    const User = mongoose.models.User || mongoose.model('User', userSchema);
-  
+      
     if (req.method === 'POST') {
 
       let token = req.cookies.token;

@@ -1,10 +1,9 @@
 import '../styles/globals.css';
-import { useEffect } from 'react';
-import { useQuery, useMutation, useQueryClient, QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { AuthProvider } from '../contexts/index';
-import { CartProvider } from '../contexts/cartContext';
-import { AnimationProvider } from '../contexts/AnimationContext';
+import { AuthProvider } from '@/contexts/AuthContext';
+import { CartProvider } from '@/contexts/CartContext';
+import { AnimationProvider } from '@/contexts/AnimationContext';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -14,13 +13,7 @@ const queryClient = new QueryClient({
   }
 });
 
-
 function MyApp({ Component, pageProps }) {
-  // 
-  useEffect(() => {
-    // TODO: Loal from localStorage for cart data
-  }, []);
-
   const getLayout = Component.getLayout || ((page) => page);
   return (
     <AnimationProvider>

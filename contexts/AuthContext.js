@@ -1,17 +1,13 @@
 import { useContext, createContext, useReducer } from "react";
-import { authReducer, initialState } from "./reducer";
 
-const authStateContext = createContext();  // save user details
-const authDispatchContext = createContext();  // pass dispatch methods around
+const authStateContext = createContext();
+const authDispatchContext = createContext();
 
-// hooks so useContext doesn't need to be called every time authorization
-// is required
 export function useAuthState() {
   const context = useContext(authStateContext);
   if (context === undefined) {
     throw new Error('Not used within a authProvider');
   }
-
   return context;
 }
 
@@ -20,7 +16,6 @@ export function useAuthDispatch() {
   if (context === undefined) {
     throw new Error('Not used within a authProvider');    
   }
-
   return context;
 }
 
@@ -36,3 +31,37 @@ export function AuthProvider({ children }) {
     </authStateContext.Provider>
   );
 };
+
+// user is the same object used to sign jwts
+const initialState = {
+  user: 'signed out',
+  err: null
+}
+
+export function authReducer(initialState, action) {
+  switch (action.type) {
+    case 'loginSuccess':
+      return {
+        user: action.payload.user,
+        err: action.payload.errMessage
+      };
+    case 'logout':
+      return {
+        ...initialState,
+        user: 'signed out'
+      };
+    case 'loginFailure':
+      return {
+        user: false,
+        err: action.payload.errMessage
+      };
+    case 'updateFav':
+      return {
+        ...initialState,
+        user: action.payload.user
+      }
+    default:
+      throw new Error(`Unhandled action type: ${action.type}`);
+  }
+};
+

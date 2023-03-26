@@ -1,8 +1,7 @@
-import dbConnect from '../../../../../lib/mongoose';
-import { userSchema } from '../../../../../../backend/Models/user';
-import { orderSchema } from '../../../../../../backend/Models/order';
-import { ItemSchema } from '../../../../../../backend/Models';
-import mongoose from 'mongoose';
+import dbConnect from '@/lib/mongoose';
+import { User } from '@/models/user';
+import { Order } from '@/models/order';
+import { Item } from '@/models/item';
 
 function handleError (err, res) {
   console.error(`Error: ${err}`);
@@ -12,9 +11,6 @@ function handleError (err, res) {
 export default async function handler(req, res) {
   try {
     await dbConnect();
-    const Item = mongoose.models.Item || mongoose.model('Item', ItemSchema);
-    const User = mongoose.models.User || mongoose.model('User', userSchema);
-    const Order = mongoose.models.Order || mongoose.model('Order', orderSchema);
 
     if (req.method === 'POST') {
       const result = await Order.findOne({ orderID: req.body.id }).exec();

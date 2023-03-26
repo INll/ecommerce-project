@@ -1,46 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
 import { scroller } from 'react-scroll';
-import LoginModal from '../LoginModal/index';
-import { useAuthState, useAuthDispatch } from "../../contexts";
-import { useRouter } from 'next/router';
-import { getCookie } from 'cookies-next';
+import LoginModal from '@/components/LoginModal/LoginModal';
+import { useAuthState } from "@/contexts/AuthContext";
 import * as NextLink from 'next/link';
 import CartIcon from './CartIcon';
-import { useCartDispatch } from '../../contexts/cartContext';
+import useInitSession from 'hooks/useInitSession';
 
 export default function Navbar() {
 
-  // prevent hydrdation error!! See: https://www.joshwcomeau.com/react/the-perils-of-rehydration/
-  // but basically, I originally tried to conditionally render components **during** hydration,
-  // which caused hydration result to be different than that of the initial HTML by using useEffect, setHasMountd is called after hydration.
+  // https://www.joshwcomeau.com/react/the-perils-of-rehydration/
+  // Attemped to conditionally render (called useEffect()) components during hydration,
+  // led to hydration result to be different than that of the initial HTML.
+
   const [ hasMounted, setHasMounted ] = useState(false);
   const [ animated, setAnimated ] = useState(false);
-  const router = useRouter();
 
-  // console.log('animated outside of useEffect ' + animated);
-  
+  const session = useAuthState();
+  let mouseDownInsideModal;
+
   function removeThis(e) {
     document.getElementById(e.target.id).remove();
   }
 
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
-
-  // read context
-  const dispatch = useAuthDispatch();
-  const session = useAuthState(); 
-
-  const cartDispatch = useCartDispatch();
-
-
-  let validationStatus = '';
-  let user = '';
-
-  // useEffect to attach eventListener to listen to mousedown events if e.target.id
-  // of mousedown events is not backdrop then there is no need to execute handleClose
-  let mouseDownInsideModal;
 
   function logMouseDown(e) {
     if (e.target.id === 'backdrop') {
@@ -56,61 +38,7 @@ export default function Navbar() {
       document.removeEventListener('mousedown', logMouseDown, []);
     }
   });
-
-  // initialize an active session, if any
-  useEffect(() => {
-    // validationResults is passed by middleware.js that validates jwt
-    const validationResults = JSON.parse(getCookie('validationResults'));
-
-    validationStatus = validationResults.result;
-    user = validationResults.user;
-    console.log(validationResults);
-
-    if (validationStatus === 'failed'){
-      dispatch({
-        type: 'logout',
-        payload: {
-          user: false,
-          errMessage: 'invalid token'
-        }
-      })
-      console.log('invalid token, logged out; redirecting...');
-      localStorage.removeItem('currentUser');
-      window.dispatchEvent(new Event('storage'));
-      router.push('/');
-    } else if (validationStatus === 'signedOut') {
-      console.log('validation status signed out!');
-      dispatch({
-        type: 'logout',
-        payload: {
-          user: false,
-          errMessage: 'successful sign out'
-        }
-      })
-      console.log('signing out');
-      localStorage.removeItem('currentUser');
-      localStorage.removeItem('animationState');
-      window.dispatchEvent(new Event('storage'));
-    } else {
-      if (user !== '') localStorage.setItem('currentUser', JSON.stringify(user));
-      dispatch({
-        type: 'loginSuccess',
-        payload: {
-          user: user,
-          errMessage: null
-        }
-      })
-      console.log('login status set');
-      let localStorageCart = localStorage.getItem('cart');
-      if (localStorageCart !== null) {
-        cartDispatch({
-          type: 'restoredItems',
-          payload: localStorageCart
-        })
-      }
-    }
-  }, []);
-
+  
   // set session dependent variables
   useEffect(() => {
     if (JSON.stringify(session.user)) {
@@ -159,6 +87,10 @@ export default function Navbar() {
     prevIsReg: false,  // changing isReg counts as different request
     hasChanged: false,
   });
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   return (
     <div className="relative">

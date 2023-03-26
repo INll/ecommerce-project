@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { useRouter } from 'next/router';
-import Layout from '../components/Layout';
-import ProfilePage from '../components/UserProfile';
-import { Cart } from '../components';
+import Layout from '@/components/Main/Layout';
+import Cart from '@/components/Cart/Cart';
 
 export default function Profile() {
   const router = useRouter();

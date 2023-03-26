@@ -1,7 +1,6 @@
-import { useAuthState } from '../../contexts';
-import { useCartState, useCartDispatch } from '../../contexts/cartContext';
-import { useEffect } from 'react';
-import { useAnimationDispatch } from '../../contexts/AnimationContext';
+import { useAuthState } from '@/contexts/AuthContext';
+import { useCartState, useCartDispatch } from '@/contexts/CartContext';
+import { useAnimationDispatch } from '@/contexts/AnimationContext';
 
 export default function AddToCart({ itemID, itemDetails }) {
 

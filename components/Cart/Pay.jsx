@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useCartState } from '../../contexts/cartContext';
+import { useCartState } from '@/contexts/CartContext';
 
 export default function Pay({ mutation }) {
   const [checked, setChecked] = useState(true);

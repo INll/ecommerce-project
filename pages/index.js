@@ -1,7 +1,5 @@
-import * as React from 'react';
-import { HomePage } from '../components';
-import Layout from '../components/Layout';
-
+import HomePage from '@/components/Main/HomePage';
+import Layout from '@/components/Main/Layout';
 
 export default function Home() {
   return (

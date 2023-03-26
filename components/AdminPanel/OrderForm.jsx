@@ -149,7 +149,7 @@ export default function OrderForm() {
                         onWheel={(e) => e.target.blur()}                                              // prevent wheel from changing value
                       />
                       {(errors.id1 || errors.id2 || errors.id3)
-                        ? <div className='font-bold text-red-600 text-[1rem] absolute top-[91%] left-[0%]'>{errors.id1 || errors.id2 || errors.id3}</div>
+                        ? <div className='font-bold text-red-600 text-[1rem] absolute top-[110%] left-[18%]'>{errors.id1 || errors.id2 || errors.id3}</div>
                         : null}
                       <div className='hidden md:inline-block pb-2 text-4xl'>-</div>
                       <div className='md:hidden mb-2 mt-4 text-base'>第二部分</div>

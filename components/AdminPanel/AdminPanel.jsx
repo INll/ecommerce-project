@@ -5,10 +5,10 @@ import ItemForm from './ItemForm';
 import OrderForm from './OrderForm';
 import Stats from './Stats';
 import { useRouter } from 'next/router';
-import { useAuthDispatch, useAuthState } from '../../contexts';
+import { useAuthDispatch, useAuthState } from '@/contexts/AuthContext';
 import * as Scroll from 'react-scroll';
 import Image from 'next/image';
-import * as cartContext from '../../contexts/cartContext';
+import { useCartDispatch } from '@/contexts/CartContext';
 
 let ScrollLink = Scroll.Link;
 let Element = Scroll.Element;
@@ -24,7 +24,7 @@ export default function AdminProfilePage() {
   const dispatch = useAuthDispatch();
   const session = useAuthState();
   
-  const cartDispatch = cartContext.useCartDispatch();
+  const cartDispatch = useCartDispatch();
 
   const [ inView, setInView ] = useState({
     zerothSecHeading: false,
@@ -37,8 +37,8 @@ export default function AdminProfilePage() {
   const observe1stSec = useRef();
   const observe2ndSec = useRef();
   const observe3rdSec = useRef();
-  // root margin: -80% reduces root (viewport) to only the top 20%, which 
-  // prevents multiple elements being determined as isIntersecting: true
+  
+  // -80% reduces root (viewport) to only the top 20%, prevents multiple elements being determined as isIntersecting: true
   let observerOptions = { rootMargin: '0px 0px -80% 0px', threshold: 0}
 
   const username = session.user.userName;
@@ -113,8 +113,7 @@ export default function AdminProfilePage() {
           <div className="overflow-hidden">
             <div className="h-[0.1rem] w-[150%] bg-gradient-to-r from-white via-neutral-800 to-neutral-800 mt-1"></div>
           </div>
-          <button className='absolute font-bold -right-0 sm:right-[0%] md:right-20 bottom-[2.2rem] border-[2px] rounded-[0.275rem] border-red-500 tracking-wide active:border-red-800 py-2 px-5 transition-colors hover:bg-red-500 active:bg-red-600
-          '
+          <button className='absolute font-bold -right-0 sm:right-[0%] md:right-20 bottom-[2.2rem] border-[2px] rounded-[0.275rem] border-red-500 tracking-wide active:border-red-800 py-2 px-5 transition-colors hover:bg-red-500 active:bg-red-600'
             onClick={handleSignoutRequest}
           >登出<span className='invisible absolute sm:visible sm:relative'>帳號</span></button>
         </div>
@@ -145,7 +144,6 @@ export default function AdminProfilePage() {
                   <div className="flex items-center mb-4 justify-between">
                     <h2 id='thirdSecHeading' ref={observe3rdSec} className='text-3xl sm:text-4xl lg:text-3xl xl:text-4xl tracking-wide mb-4'>用戶</h2>
                     <div className="m-4 overflow-visible ">
-                      {/* <Switch /> */}
                     </div>
                   </div>
                     <UserForm />
@@ -161,16 +159,16 @@ export default function AdminProfilePage() {
                   <header className='pb-[0.8rem] text-2xl font-extrabold tracking-widest'>快速導航</header>
                   <ul>
                     {/* wrap these with scrollers */}
-                    <ScrollLink to="zerothSection" smooth={true} duration={300} offset={-50}>
+                    <ScrollLink to="zerothSection" smooth={true} duration={300} offset={-150}>
                       <li className={`tracking-wider border-l-2 py-[0.53rem] px-4 cursor-pointer hover:text-indigo-300 ${inView.zerothSecHeading ? 'bg-indigo-400/20' : null}`}>數據</li>
                     </ScrollLink>
-                    <ScrollLink to="firstSection" smooth={true} duration={300} offset={-50}>
+                    <ScrollLink to="firstSection" smooth={true} duration={300} offset={-150}>
                       <li className={`tracking-wider border-l-2 py-[0.53rem] px-4 cursor-pointer hover:text-indigo-300 ${inView.firstSecHeading ? 'bg-indigo-400/20' : null}`}>商品</li>
                     </ScrollLink>
-                    <ScrollLink to="secondSection" smooth={true} duration={300} offset={-50}>
+                    <ScrollLink to="secondSection" smooth={true} duration={300} offset={-150}>
                       <li className={`tracking-wider border-l-2 py-[0.53rem] px-4 cursor-pointer hover:text-indigo-300 ${inView.secondSecHeading ? 'bg-indigo-400/20' : null}`}>訂單</li>
                     </ScrollLink>
-                    <ScrollLink to="thirdSection" smooth={true} duration={300} offset={-50}>
+                    <ScrollLink to="thirdSection" smooth={true} duration={300} offset={-150}>
                       <li className={`tracking-wider border-l-2 py-[0.53rem] px-4 cursor-pointer hover:text-indigo-300 ${inView.thirdSecHeading ? 'bg-indigo-400/20' : null}`}>用戶</li>
                     </ScrollLink>
                   </ul>

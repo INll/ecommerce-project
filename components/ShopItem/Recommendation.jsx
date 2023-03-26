@@ -1,4 +1,4 @@
-import { useAuthDispatch, useAuthState } from "../../contexts";
+import { useAuthDispatch, useAuthState } from "@/contexts/AuthContext";
 import { useMutation } from "react-query";
 import { useRouter } from 'next/router';
 import axios from 'axios';

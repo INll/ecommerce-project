@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { React, useEffect } from 'react';
-import Backdrop from '../Backdrop/index';
-import LoginForm from '../LoginForm/index';
+import Backdrop from './Backdrop';
+import LoginForm from './LoginForm';
 
 // Define multiple stages as one 'variant' object
 const dropIn = {
@@ -30,6 +30,7 @@ const dropIn = {
     },
   }
 }
+
 export default function index({ handleClose, loginTemp, saveLoginInfo, isReg, setIsReg, 
   prevForm, setPrevForm, modalIsActive, setModalIsActive
 }) {

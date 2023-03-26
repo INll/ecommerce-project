@@ -1,6 +1,5 @@
-import dbConnect from '../../../../lib/mongoose';
-import { ItemSchema } from '../../../../../backend/Models';
-import { orderSchema } from '../../../../../backend/Models/order';
+import dbConnect from '@/lib/mongoose';
+import { Order } from '@/models/order';
 import mongoose from 'mongoose';
 
 function handleError (err, res) {
@@ -11,9 +10,7 @@ function handleError (err, res) {
 export default async function handler(req, res) {
   try {
     await dbConnect();
-    const Item = mongoose.models.Item || mongoose.model('Item', ItemSchema);
-    const Order = mongoose.models.Order || mongoose.model('Order', orderSchema);
-
+    
     if (req.method === 'GET') {
       const { id, maxOrder } = req.query;
       const userId = mongoose.Types.ObjectId(id);
@@ -34,3 +31,7 @@ export default async function handler(req, res) {
     return Promise.reject('Unknown error');
   }
 }
+
+
+
+

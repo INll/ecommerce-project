@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from "axios";
 import { useQuery } from "react-query";
-import { useAuthState } from "../../contexts";
+import { useAuthState } from "@/contexts/AuthContext";
 import Image from "next/image";
 import OrderItemDetailed from './OrderItemDetailed';
 

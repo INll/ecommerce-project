@@ -1,13 +1,11 @@
-import bcrypt from 'bcryptjs';  
-// TODO: hash all incoming password strings and stored hashed versions on server
-//       read usage: https://www.npmjs.com/package/bcrypt
-import { setCookie } from 'cookies-next';
+import bcrypt from 'bcryptjs';
 import Cookies from 'universal-cookie';
-import { signToken } from '../../lib/token.js';
-import dbConnect from '../../lib/mongoose.js';
-import { userSchema } from '../../../backend/Models/user.js';
+import { setCookie } from 'cookies-next';
+import { signToken } from '@/lib/token';
 import mongoose from 'mongoose';
-import { date } from 'yup';
+import dbConnect from '@/lib/mongoose';
+import { User } from '@/models/user';
+
 
 const EIGHT_HOURS = 8*60*60*1000;   // mongodb saves Date in GMT by default
 
@@ -32,19 +30,11 @@ export default async function handler(req, res) {
     // connect to db, return a connection object
     await dbConnect();
 
-    // declare model after connecting to mongoDB
-    // note that directly importing a model DOES NOT WORK, it will become a rogue
-    // model that is not associated with the current connection, and will result
-    // in time out error 
-    const User = mongoose.models.User || mongoose.model('User', userSchema);
-
     if (req.method === 'POST') {
       // destructure req
-      let { userName, passWord, passWordConfirmation } = req.body.value;
+      let { userName, passWord } = req.body.value;
       const isReg = req.body.isReg;
       
-      const cookies = new Cookies(req.cookies);
-
       // check data
       if (!userName || !passWord ) {
         res.status(422).json({ message: 'Invalid user data' });

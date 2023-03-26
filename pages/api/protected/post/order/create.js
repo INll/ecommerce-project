@@ -1,8 +1,8 @@
-import dbConnect from '../../../../../lib/mongoose';
-import { userSchema } from '../../../../../../backend/Models/user';
-import { itemSchema } from '../../../../../../backend/Models/item';
-import { orderSchema } from '../../../../../../backend/Models/order';
-import constants from '../../../../../lib/constants';
+import dbConnect from '@/lib/mongoose';
+import { User } from '@/models/user';
+import { Item } from '@/models/item';
+import { Order } from '@/models/order';
+import constants from '@/lib/constants';
 import orderid from 'order-id';
 import mongoose from 'mongoose';
 import * as jose from 'jose';
@@ -17,10 +17,7 @@ const MAX_ORDER_QUANTITY = 99;
 export default async function handler(req, res) {
   try {
     await dbConnect();  // use global connection
-    const User = mongoose.models.User || mongoose.model('User', userSchema);
-    const Item = mongoose.models.Item || mongoose.model('Item', itemSchema);
-    const Order = mongoose.models.Order || mongoose.model('Order', orderSchema);
-  
+    
     if (req.method === 'POST') {
       let token = req.cookies.token;
       const key = new TextEncoder().encode(constants.jwtSecret);

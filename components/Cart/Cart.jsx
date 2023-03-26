@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import { useAuthDispatch, useAuthState } from '../../contexts';
+import { useAuthDispatch, useAuthState } from '@/contexts/AuthContext';
 import { useMutation } from 'react-query';
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useCartState, useCartDispatch } from '../../contexts/cartContext';
-import { useAnimationState, useAnimationDispatch } from '../../contexts/AnimationContext';
+import { useCartState, useCartDispatch } from '@/contexts/CartContext';
+import { useAnimationState, useAnimationDispatch } from '@/contexts/AnimationContext';
 import CartContent from './CartContent';
 import Price from './Price';
 import Pay from './Pay';
@@ -16,7 +16,7 @@ function handleError (err, res) {
   console.log(err.stack);
 }
 
-export default function ItemPage({ prop }) {
+export default function Cart({ prop }) {
 
   const [orderId, setOrderId] = useState('');
   const [err, setErr] = useState({

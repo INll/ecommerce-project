@@ -1,7 +1,7 @@
 import React from 'react';
 import CartItem from './CartItem';
-import { useCartState } from '../../contexts/cartContext';
-import { useAuthState } from '../../contexts';
+import { useCartState } from '@/contexts/CartContext';
+import { useAuthState } from '@/contexts/AuthContext';
 
 export default function CartContent() {
 

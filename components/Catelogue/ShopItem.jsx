@@ -1,4 +1,4 @@
-import { useAuthDispatch, useAuthState } from "../../contexts";
+import { useAuthDispatch, useAuthState } from "@/contexts/AuthContext";
 import { useMutation } from "react-query";
 import { useViewContext } from "./ViewContext";
 import { useRouter } from 'next/router';
@@ -46,11 +46,11 @@ export default function ShopItem({ item, catDict }) {
       flex flex-col w-full sm:w-fit h-[30rem] sm:h-[27rem] md:h-[25rem] bg-stone-700/20 rounded-[0.375rem] backdrop-blur-sm sm:backdrop-blur-md cursor-pointer hover:scale-[1.03] active:scale-[0.98] transition-all duration-500`}
       onClick={(e) => (e.target.name === 'likeButton') ? null : router.push(`/item/${item._id}`) }
       >
-        <img className="h-72 object-cover sm:h-fit" src={item.images.url} alt={`${item.title}`} />
+        <img className="h-72 mx-auto object-cover sm:h-fit" src={item.images.url} alt={`${item.title}`} />
         <div className="flex flex-col justify-between md:overflow-hidden px-5 pt-3 w-full h-full">
           <div>
             <div className="text-3xl h-fit text-left sm:text-xl">{item.title}</div>
-            <div className="sm:absolute text-xl text-zinc-400">{itemCategory}</div>
+            <div className="text-left py-2 sm:py-0 sm:absolute text-xl text-zinc-400">{itemCategory}</div>
           </div>
           <div className="flex justify-between">
             {/* if logged in -> if a addToFav is in progress -> if this item is in favItems*/}
@@ -63,7 +63,6 @@ export default function ShopItem({ item, catDict }) {
                     ? <img src="/heart-full.png" name='likeButton' id='unlikeButton' alt="remove from favourite button"
                           className={`relative top-6 w-[1.5rem] h-[1.5rem] transition-all overflow-hidden hover:w-[1.7rem] hover:h-[1.7rem] hover:-translate-y-[0.1rem] hover:-translate-x-[0.1rem]`}
                           onClick={(e) => {
-                            console.log(e.target);
                             mutate({
                               user: session.user,
                               item: item,
@@ -73,7 +72,6 @@ export default function ShopItem({ item, catDict }) {
                     : <img src="/heart-white.png" name='likeButton' id='likeButton' alt="add to favourite button"
                         className={`relative top-6 w-[1.5rem] h-[1.5rem] transition-all overflow-hidden hover:w-[1.7rem] hover:h-[1.7rem] hover:-translate-y-[0.1rem] hover:-translate-x-[0.1rem]`}
                         onClick={(e) => {
-                          console.log(e.target.id);
                           mutate({ 
                             user: session.user, 
                             item: item, 

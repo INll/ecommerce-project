@@ -1,7 +1,6 @@
-import dbConnect from '../../../../lib/mongoose';
-import { userSchema } from '../../../../../backend/Models/user';
-import constants from '../../../../lib/constants';
-import mongoose from 'mongoose';
+import dbConnect from '@/lib/mongoose';
+import { User } from '@/models/user';
+import constants from '@/lib/constants';
 import * as jose from 'jose';
 
 function handleError (err, res) {
@@ -12,7 +11,6 @@ function handleError (err, res) {
 export default async function handler(req, res) {
   try {
     await dbConnect();  // use global connection
-    const User = mongoose.models.User || mongoose.model('User', userSchema);
   
     if (req.method === 'POST') {
       let token = req.cookies.token;

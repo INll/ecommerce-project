@@ -1,6 +1,5 @@
-import React from 'react';
-import Hero from './Hero';
-import Catelogue from './Catelogue/Catalogue';
+import Hero from '@/components/Main/Hero';
+import Catelogue from '@/components/Catelogue/Catalogue';
 
 export default function HomePage() {
   return (

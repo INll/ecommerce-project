@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import SideLink from './SideLink';
-import { useAuthDispatch, useAuthState } from '../../contexts';
+import { useAuthDispatch, useAuthState } from '@/contexts/AuthContext';
 import * as Scroll from 'react-scroll';
 import Image from 'next/image';
 import RecentOrders from './RecentOrders';
-import * as cartContext from '../../contexts/cartContext';
+import { useCartDispatch } from '@/contexts/CartContext';
 
 let ScrollLink = Scroll.Link;
 let Element = Scroll.Element;
@@ -22,7 +22,7 @@ export default function ProfilePage({ userName }) {
   const dispatch = useAuthDispatch();
   const session = useAuthState();
 
-  const cartDispatch = cartContext.useCartDispatch();
+  const cartDispatch = useCartDispatch();
 
   // detect if an element is in view
   const [inView, setInView] = useState({

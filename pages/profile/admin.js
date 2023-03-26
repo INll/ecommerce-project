@@ -1,6 +1,6 @@
 import * as React from 'react';
-import AdminProfilePage from '../../components/AdminPanel';
-import Layout from '../../components/Layout';
+import AdminProfilePage from '@/components/AdminPanel/AdminPanel/';
+import Layout from '@/components/Main/Layout';
 
 export default function Profile() {
   return (
