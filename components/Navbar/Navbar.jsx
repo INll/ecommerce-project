@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
 import { scroller } from 'react-scroll';
 import LoginModal from '@/components/LoginModal/LoginModal';
-import { useAuthState, useAuthDispatch } from "@/contexts/AuthContext";
+import { useAuthState } from "@/contexts/AuthContext";
 import * as NextLink from 'next/link';
 import CartIcon from './CartIcon';
 import useInitSession from 'hooks/useInitSession';
+import useRefreshSession from 'hooks/useRefreshSession';
 
 export default function Navbar() {
 
@@ -13,17 +14,24 @@ export default function Navbar() {
   // Attemped to conditionally render (called useEffect()) components during hydration,
   // led to hydration result to be different than that of the initial HTML.
 
-    const [ hasMounted, setHasMounted ] = useState(false);
-  const [ animated, setAnimated ] = useState(false);
-
-  const session = useAuthState();
-  let mouseDownInsideModal;
+  const [hasMounted, setHasMounted] = useState(false);
+  const [animated, setAnimated] = useState(false);
+  const [modalIsActive, setModalIsActive] = useState(false);
+  const [loginTemp, setLoginTemp] = useState({ userName: '', passWord: '', passWordConfirmation: '' });
+  const [isRegistering, setIsRegistering] = useState(false);
+  // save previous form data to curr vales
+  const [prevForm, setPrevForm] = useState({
+    formData: loginTemp,
+    prevLoginResult: 0,   // if form hasn't changed, use previous response status code
+    prevIsReg: false,  // changing isReg counts as different request
+    hasChanged: false,
+  });
 
   function removeThis(e) {
     document.getElementById(e.target.id).remove();
   }
 
-  useInitSession();
+  let mouseDownInsideModal;
 
   function logMouseDown(e) {
     if (e.target.id === 'backdrop') {
@@ -39,55 +47,11 @@ export default function Navbar() {
       document.removeEventListener('mousedown', logMouseDown, []);
     }
   });
-  
-  // set session dependent variables
-  useEffect(() => {
-    if (JSON.stringify(session.user)) {
-      setLoginTemp({
-        userName: '',
-        passWord: '',
-        passWordConfirmation: '',
-      });
-      setPrevForm({
-        formData: loginTemp,
-        prevLoginResult: 0,
-        prevIsReg: false,
-        hasChanged: false,
-      })
-    }
-    // 'animationState' remembers if session has ever played animation
-    // It will be set to true after user has signed in, and stays true only until it gets delete when user signs out then it will be set to false again
-    let animationState = localStorage.getItem('animationState');
-    console.log()
-    if ((animationState === null || session.user === 'signed out') && animationState !== 'true' ) { 
-      // should not play animation
-      localStorage.setItem('animationState', false);
-      console.log('animated set to false');
-      setAnimated(false);
-      window.dispatchEvent(new Event('storage'));
-     } else if (animationState === 'false' && session.user !== 'signed out') { // **stored as string**; also first login
-      console.log(`Eval: ${animationState}`);
-      localStorage.setItem('animationState', true);
-      setAnimated(true);
-      window.dispatchEvent(new Event('storage'));
-      console.log('=====');
-     }
-  }, [session]);
 
-  const [modalIsActive, setModalIsActive] = useState(false);
-  const [loginTemp, setLoginTemp] = useState({
-    userName: '',
-    passWord: '',
-    passWordConfirmation: '',
-  });
-  const [isRegistering, setIsRegistering] = useState(false);
-  // save previous form data to curr vales
-  const [prevForm, setPrevForm] = useState({
-    formData: loginTemp,
-    prevLoginResult: 0,   // if form hasn't changed, use previous response status code
-    prevIsReg: false,  // changing isReg counts as different request
-    hasChanged: false,
-  });
+  const session = useAuthState();
+
+  useInitSession();
+  useRefreshSession({ setAnimated, loginTemp, setLoginTemp, setPrevForm});
 
   useEffect(() => {
     setHasMounted(true);
