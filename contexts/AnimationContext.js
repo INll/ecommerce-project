@@ -51,6 +51,15 @@ function animationReducer(animationStates, action) {
           id: action.id
         }
       }
+    case 'reset':  // reset states onload
+      let resetAnimationStates = {};
+      action.animationName.forEach(animationName => {
+        resetAnimationStates[animationName] = initialState[animationName]
+      });
+      return {
+        ...animationStates,
+        ...resetAnimationStates
+      }
     default:
       throw new Error('animationContext: unknown action type: ' + action.type);
   }

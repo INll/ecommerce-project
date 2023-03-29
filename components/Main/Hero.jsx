@@ -7,7 +7,7 @@ export default function Hero() {
   
   return (
     <>
-      <div id="homePage" className="bg-slate-800 sm:flex justify-center">
+      <div id="homePage" className="bg-slate-800 text-white sm:flex justify-center">
         <header className='px-20 py-20 sm:px-auto sm:py-auto sm:w-auto flex flex-col sm:flex-col justify-center items-center sm:items-start'>
           <h1 className='text-7xl font-semibold sm:py-[0.3rem] relative sm:left-[20%]'>男仕</h1>
           <h1 className='text-7xl font-semibold sm:py-[0.3rem] relative sm:left-[40%]'>精選</h1>

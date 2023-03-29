@@ -3,6 +3,7 @@ import { useCartDispatch } from '@/contexts/CartContext';
 import { useAnimationDispatch, useAnimationState } from '@/contexts/AnimationContext';
 import { motion, useAnimation } from 'framer-motion';
 import { useRouter } from 'next/router';
+import useResetAnimation from 'hooks/useResetAnimation';
 
 export default function Cartdetails({ qty, details }) {
 
@@ -16,6 +17,12 @@ export default function Cartdetails({ qty, details }) {
   const prevAnimationState2 = useRef();
   const prevAnimationState3 = useRef();
   
+  function clearAnimationStates() {
+    setTimeout(() => {
+      animationDispatch({ type: 'reset', animationName: ['increasedCartItem', 'decreasedCartItem', 'deletedCartItem']});
+    }, 150);
+  }
+
   function handleChangeQty(e) {
     if (e.target.name === `increaseQty_${details._id}`) {  // add one
       cartDispatch({ type: 'increasedQty', payload: { id: details._id } });
@@ -27,6 +34,7 @@ export default function Cartdetails({ qty, details }) {
       cartDispatch({ type: 'changedToQty', payload: { id: details._id, newQty: Number(e.target.value) } });
     }
     cartDispatch({ type: 'savedToLocalStorage', payload: null });
+    clearAnimationStates();
   };
 
   function handleDeleteItem(e) {
@@ -37,6 +45,7 @@ export default function Cartdetails({ qty, details }) {
         cartDispatch({ type: 'deletedItem', payload: { id: details._id } });
         cartDispatch({ type: 'savedToLocalStorage', payload: null })
       }, 150);
+      clearAnimationStates();
     }
   };
 
@@ -45,6 +54,8 @@ export default function Cartdetails({ qty, details }) {
       router.push(`/item/${details._id}`);
     };
   };
+
+  // useResetAnimation(['increasedCartItem', 'decreasedCartItem', 'deletedCartItem']);
 
   function selectOptions(max) {
     const option = [];
@@ -75,7 +86,7 @@ export default function Cartdetails({ qty, details }) {
         controlsCount.start({ y: 0 });
       };
     };
-    if (prevAnimationState3.current !== animationStates.decreasedCartItem) {
+    if (prevAnimationState3.current !== animationStates.deletedCartItem) {
       if (animationStates.deletedCartItem.id === details._id) {
         controlsCard.set({ scale: 1 });
         controlsCard.start({ scale: 0 });
