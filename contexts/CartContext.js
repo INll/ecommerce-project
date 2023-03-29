@@ -44,13 +44,13 @@ function cartReducer(cart, action) {
     case 'increasedQty':
       return cart.map((item) => {
         if (item.id === action.payload.id && item.qty < 99) {
-          return { ...item, qty: item.qty++ };
+          return { ...item, qty: ++item.qty };
         } else return item;
       });
     case 'decreasedQty':
       return cart.map((item) => {
         if (item.id === action.payload.id && item.qty > 1) {
-          return { ...item, qty: item.qty-- };
+          return { ...item, qty: --item.qty };
         } else return item;
       });
     case 'changedToQty':
