@@ -272,7 +272,7 @@ export default function LoginForm({ onClick, loginTemp, saveLoginInfo, isReg, se
           <div className="flex items-center justify-center gap-4">
             <label htmlFor="username" className="basis-1/5">用戶名稱</label>
             <Field
-              className="h-8 rounded pl-2 relative"
+              className="h-8 rounded pl-2 relative text-white bg-neutral-600"
               id="username"
               name="userName"
             />
@@ -292,7 +292,7 @@ export default function LoginForm({ onClick, loginTemp, saveLoginInfo, isReg, se
           <div className="flex items-center justify-center gap-4">
           <label htmlFor="password"  className="basis-1/5">密碼</label>
             <Field
-              className="h-8 rounded pl-2 passwordField"
+              className="h-8 rounded pl-2 passwordField text-white bg-neutral-600"
               type={passwordShown ? 'text' : 'password'}
               id="password"
               name="passWord"
