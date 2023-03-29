@@ -12,19 +12,19 @@ export default function Hero() {
           <h1 className='text-7xl font-semibold sm:py-[0.3rem] relative sm:left-[20%]'>男仕</h1>
           <h1 className='text-7xl font-semibold sm:py-[0.3rem] relative sm:left-[40%]'>精選</h1>
           <div className='text-3xl py-6 relative sm:left-[20%] md:w-auto'>襯衫，裇衫，西褲，應有盡有</div>
-          <div className=''>
+          <div className='flex justify-center w-full'>
             <ScrollLink to='catelogue' smooth={true} duration={300} offset={-120}>
               <button className='bg-gradient-to-r from-amber-300 via-amber-100 to-amber-300
-                w-fit relative sm:left-[35%] top-[25px] sm:top-[5%] text-zinc-900 px-6 py-3
+                w-fit relative top-[25px] sm:left-7 text-zinc-900 px-6 py-3
                 rounded-[0.2rem] font-extrabold text-[1.55rem] tracking-wider transition-ring
                 ease[cubic-bezier(0.88, 1.09, 0.6, 0.98)] duration-150 ring-0 hover:ring-2 ring-amber-300'>立卽選購
               </button>
             </ScrollLink>
-            <button className='hidden md:block bg-white relative left-[165%] bottom-[36%]
+            {/* <button className='hidden md:block bg-white relative left-[165%] bottom-[36%]
               bg-gradient-to-b from-white via-gray-300 to-gray-400  text-black font-extrabold
               hover:ring-2 ring-white px-3 py-[0.6rem] rounded-md text-lg'>
                 <img src="/reload.png" alt="a dice" className='h-[25px]'/>
-            </button>
+            </button> */}
           </div>
         </header>
         {/* TODO: Implement a random display of items based on click of refresh button*/}
