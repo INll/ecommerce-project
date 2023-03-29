@@ -35,7 +35,7 @@ function cartReducer(cart, action) {
       if (cart.some((item) => item.id === action.payload.id)) {
         return cart.map((item) => {
           if (item.id === action.payload.id) {
-            return { ...item, qty: item.qty++ };
+            return { ...item, qty: ++item.qty };
           } else return item;
         })
       } else {
