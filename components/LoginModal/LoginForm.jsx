@@ -316,7 +316,7 @@ export default function LoginForm({ onClick, loginTemp, saveLoginInfo, isReg, se
             <div className="flex items-center justify-center gap-4">
             <label htmlFor="passwordConfirmation"  className="basis-1/5">確認密碼</label>
               <Field
-                className="h-8 rounded pl-2 passwordField"
+                className="h-8 rounded pl-2 passwordField text-white bg-neutral-600"
                 type={passwordShown ? 'text' : 'password'}
                 id="passwordConfirmation"
                 name="passWordConfirmation"
