@@ -15,7 +15,7 @@ export default function Cartdetails({ qty, details }) {
   const prevAnimationState1 = useRef();
   const prevAnimationState2 = useRef();
   const prevAnimationState3 = useRef();
-
+  
   function handleChangeQty(e) {
     if (e.target.name === `increaseQty_${details._id}`) {  // add one
       cartDispatch({ type: 'increasedQty', payload: { id: details._id } });

@@ -33,7 +33,7 @@ export default function useRefreshSession({ setAnimated, loginTemp, setLoginTemp
       localStorage.setItem('animationState', true);
       setAnimated(true);
       window.dispatchEvent(new Event('storage'));
-      console.log('=====');
+ 
      }
   }, [session]);
 }

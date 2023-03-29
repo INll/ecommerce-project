@@ -15,12 +15,17 @@ export default function useInitSession() {
 
   // initialize an active session
   useEffect(() => {
-    // store cookie returned by middleware.js that validates jwt
-    const validationResults = JSON.parse(getCookie('validationResults'));
+    const cookie = getCookie('validationResults');
 
-    validationStatus = validationResults.result;
-    user = validationResults.user;
-    console.log(validationResults);
+    if (cookie === undefined) {
+      validationStatus = 'signedOut';
+    } else {
+      const validationResults = JSON.parse(getCookie('validationResults'));
+
+      validationStatus = validationResults.result;
+      user = validationResults.user;  
+      // console.log(validationResults);
+    }
 
     if (validationStatus === 'failed'){
       dispatch({
@@ -30,12 +35,12 @@ export default function useInitSession() {
           errMessage: 'invalid token'
         }
       })
-      console.log('invalid token, logged out; redirecting...');
+      // console.log('invalid token, logged out; redirecting...');
       localStorage.removeItem('currentUser');
       window.dispatchEvent(new Event('storage'));
       router.push('/');
     } else if (validationStatus === 'signedOut') {
-      console.log('validation status signed out!');
+      // console.log('validation status signed out!');
       dispatch({
         type: 'logout',
         payload: {
@@ -43,7 +48,7 @@ export default function useInitSession() {
           errMessage: 'successful sign out'
         }
       })
-      console.log('signing out');
+      // console.log('signing out');
       localStorage.removeItem('currentUser');
       localStorage.removeItem('animationState');
       window.dispatchEvent(new Event('storage'));
@@ -56,7 +61,7 @@ export default function useInitSession() {
           errMessage: null
         }
       })
-      console.log('login status set');
+      // console.log('login status set');
       let localStorageCart = localStorage.getItem('cart');
       if (localStorageCart !== null) {
         cartDispatch({

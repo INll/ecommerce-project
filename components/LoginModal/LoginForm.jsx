@@ -51,7 +51,7 @@ function handleError (err, res) {
   res.status(405).end();
 };
 
-export default function index({ onClick, loginTemp, saveLoginInfo, isReg, setIsReg,
+export default function LoginForm({ onClick, loginTemp, saveLoginInfo, isReg, setIsReg,
   prevForm, setPrevForm, modalIsActive, setModalIsActive
  }) {
 

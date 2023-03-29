@@ -53,7 +53,6 @@ export default function Cart({ prop }) {
     return await axios.post('/api/protected/post/order/create', [ cart, session.user, total ])
   }
   , { onSuccess: (res) => {
-    console.log(res);
     switch (res.data.result) {
       case 0:
         setErr({ errMsg: errorMessages[0], details: null });
@@ -116,9 +115,9 @@ export default function Cart({ prop }) {
                 ? <div className='flex flex-col justify-center items-center py-10 text-2xl h-[80%]'>
                     <div className='px-[10%] text-center text-base sm:text-2xl py-10 text-zinc-200'>{err.errMsg}</div>
                     <div className='py-5 text-2xl'>
-                      {err.details.map((item) => {
+                      {err.details.map((item, index) => {
                         return (
-                          <span className='font-bold'>{item.title} (改爲{item.stock})</span>
+                          <span key={index} className='font-bold'>{item.title} (改爲{item.stock})</span>
                         )
                       })}
                     </div>

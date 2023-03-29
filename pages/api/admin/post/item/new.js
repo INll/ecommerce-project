@@ -5,7 +5,7 @@ import constants from '@/lib/constants';
 import formidable from 'formidable';
 import * as jose from 'jose';
 import fs from 'fs';
-import { storage } from '@/firebaseConfig';
+import { storage } from 'firebaseConfig';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 export const config = {

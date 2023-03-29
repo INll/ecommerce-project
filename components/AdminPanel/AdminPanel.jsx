@@ -87,7 +87,7 @@ export default function AdminProfilePage() {
         });
         router.push('/');
       }
-      console.log('successfully logged out');
+      // console.log('successfully logged out');
       cartDispatch({
         type: 'clearedCart',
         payload: null

@@ -8,8 +8,6 @@ export default function CartContent() {
   const cart = useCartState();
   const session = useAuthState();
 
-  console.log(cart.length);
-
   return (
     <div className='my-10'>
       {session.user === 'signed out'

@@ -21,7 +21,7 @@ const UserSchema = new Schema ({
   favItems: { 
     type: [String],
   },
-  creationTime:  { 
+  creationTime: { 
     type: Date, 
     default: Date.now 
   },

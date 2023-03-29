@@ -64,8 +64,8 @@ export default function RecentOrders({ closeAll }) {
               const date = new Date(order.timeOfSale);
 
               const year = date.getFullYear();
-              const month = date.getMonth();
-              const day = date.getDay();
+              const month = date.getMonth() + 1;
+              const day = date.getDate();
               const time = date.toLocaleTimeString(LOCALE).replace(':', '時').replace(':', '分').slice(0, -2);
               const orderIDStr = order.orderID.toString();
               const orderIDStrReadable = `${orderIDStr.slice(0, 4)}-${orderIDStr.slice(4,10)}-${orderIDStr.slice(10, orderIDStr.length - 0)}`;

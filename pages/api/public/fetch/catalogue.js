@@ -1,9 +1,8 @@
 import dbConnect from '@/lib/mongoose';
-import { ItemSchema } from '@/models/item';
-import { userSchema } from '@/models/user';
+import { Item } from '@/models/item';
+import { User } from '@/models/user';
 import constants from '@/lib/constants';
 import * as jose from 'jose';
-import mongoose from 'mongoose';
 
 function handleError (err, res) {
   console.error(`Error: ${err}`);
@@ -23,12 +22,6 @@ export default async function handler(req, res) {
 
   try {
     await dbConnect();
-    const Item = mongoose.models.Item || mongoose.model('Item', ItemSchema);
-
-    // also update user info on initial fetch, if logged in
-    const User = mongoose.models.User || mongoose.model('User', userSchema);
-
-    console.log(req.cookies.token);
 
     if (req.cookies.token !== undefined) {
       let token = req.cookies.token;

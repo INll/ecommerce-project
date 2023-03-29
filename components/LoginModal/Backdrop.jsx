@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { React, useEffect } from 'react';
 
-export default function backdrop({ onClick, children }) {
+export default function Backdrop({ onClick, children }) {
 
   function handleEscape(e) {
     if (e.key === 'Escape') {

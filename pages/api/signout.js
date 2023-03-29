@@ -12,7 +12,7 @@ export default async function handler(req, res) {
         user: null
       }
       setCookie('validationResults', JSON.stringify(validationResult), { req, res });
-      console.log('clearing cookies');
+      // console.log('clearing cookies');
       res.status(200).json({ message: 'logout success'});
     } else {
       res.status(405).json({ message: 'Invalid method' });

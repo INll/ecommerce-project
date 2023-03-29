@@ -1,6 +1,5 @@
 import dbConnect from '@/lib/mongoose';
-import { userSchema } from '@/models/user';
-import mongoose from 'mongoose';
+import { User } from '@/models/user';
 import { countLastMonth, countThisMonth, countLast30Days } from '@/lib/aggregation';
 
 function handleError (err) {
@@ -13,7 +12,6 @@ function handleError (err) {
 export default async function handler(req, res) {
   try {
     await dbConnect();  // use global connection
-    const User = mongoose.models.User || mongoose.model('User', userSchema);
 
     // dashboard has three data to get: (1) New users this month, (2) mae and (3) ame
     if (req.method === 'GET') {
@@ -26,7 +24,7 @@ export default async function handler(req, res) {
       let queryResult = [newUsersThisMonth, newUsersLastMonth, usersLast30Days].map(e => ((e.length === 0) ? 0 : e[0].result));
       // TODO: Implement average monthly expenditure aggregation. Currently I'm faking a N/A response.
       queryResult.push('N/A');
-      console.log(queryResult);
+      // console.log(queryResult);
       res.status(200).json({ message: queryResult });
     } else {
       res.status(405).json({ message: 'Invalid method' });
