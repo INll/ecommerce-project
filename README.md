@@ -1,34 +1,54 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Stack
+MANSWHERE uses the **React** JavaScript library for building **user interfaces** and depends on **Next.js** for development. Backend relies on **Next.js API**, **Firebase** for **image** hosting and **MongoDB** regular data
 
-## Getting Started
+## Features (Regular)
+- **Fully responsive**, **role-dependent** pages.
+- **JWT**-based **authentication** and **authorization** running on Node-based Next.js APIs.
+- Smooth shop **catalogue** built with **CSS Grid** with **filters** and **sorting**. 
+- **Dynamic** shop item **page** based on **URL slugs**.
+- **Session-based** shopping **cart**.
+- **Order creation**, viewing **recent orders** , wishlisting
 
-First, run the development server:
+## Features (Administrator)
+- Shop **item creation**, with image support.
+- **User**, **order** **querying** by IDs.
+- Live statistic preview
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+## Demo account (or register your own!)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Username: **testUser2**
+Password:  **TestUser!1234**
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## Dependencies
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+    "@headlessui/react": "^1.7.13",
+    "axios": "^1.3.2",
+    "bcryptjs": "^2.4.3",
+    "cookies-next": "^2.1.1",
+    "dotenv": "^16.0.3",
+    "eslint": "8.27.0",
+    "eslint-config-next": "13.0.3",
+    "firebase": "^9.17.2",
+    "formidable": "^2.1.1",
+    "formik": "^2.2.9",
+    "framer-motion": "^6.5.1",
+    "jose": "^4.12.0",
+    "jsonwebtoken": "^9.0.0",
+    "mongodb": "^4.14.0",
+    "mongoose": "^6.9.1",
+    "next": "13.0.3",
+    "order-id": "^2.1.2",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-query": "^3.39.3",
+    "react-scroll": "^1.8.8",
+    "yup": "^0.32.11"
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Environmental Variables
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+    MONGODB_PATH=''
+    NODE_ENV=''
+    SECRET=''      // signing jwt
+    FIREBASE_API=''
+    FIREBASE_SENDER_ID=''
+    FIREBASE_APP_ID=''

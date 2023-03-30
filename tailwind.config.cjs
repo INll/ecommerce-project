@@ -18,9 +18,6 @@ module.exports = {
       animation: {
         bouncing: 'bouncing 0.25s 1',
       }
-  },
-  plugins: [
-    require('@tailwindcss/line-clamp')
-  ],
+  }
   }
 }

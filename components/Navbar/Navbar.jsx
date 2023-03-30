@@ -97,7 +97,8 @@ export default function Navbar() {
           }
           <AnimatePresence initial={false}>
             {modalIsActive && <LoginModal 
-              handleClose={() => {
+              handleClose={(e) => {
+                if (e.target.id === 'closeButton') setModalIsActive(!modalIsActive);
                 mouseDownInsideModal ? 
                 (setModalIsActive(!modalIsActive)) : null 
               }}

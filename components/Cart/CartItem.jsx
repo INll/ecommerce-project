@@ -121,7 +121,7 @@ export default function Cartdetails({ qty, details }) {
         </button>
         <motion.div animate={controlsCount} className='h-fit w-full flex flex-col items-center justify-center sm:h-auto'>
           <div className='hidden h-full w-full sm:flex sm:items-center sm:justify-center font-bold text-xl'>{qty}</div>
-          <select name="changeQty" value={qty} className={`sm:hidden h-fit w-14 changedQty_${details._id}`} onChange={handleChangeQty}>
+          <select name="changeQty" value={qty} className={`sm:hidden h-fit w-14 bg-neutral-600 changedQty_${details._id}`} onChange={handleChangeQty}>
             {selectOptions(99)}
           </select>
         </motion.div>

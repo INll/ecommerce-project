@@ -1,5 +1,4 @@
 import bcrypt from 'bcryptjs';
-import Cookies from 'universal-cookie';
 import { setCookie } from 'cookies-next';
 import { signToken } from '@/lib/token';
 import mongoose from 'mongoose';

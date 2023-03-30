@@ -251,9 +251,9 @@ export default function LoginForm({ onClick, loginTemp, saveLoginInfo, isReg, se
         }}
         >
           <button className="absolute text-white-500 font-bold text-2xl top-[-0.1rem] 
-            right-3 px-1 pt-1 pb-1"
-            onClick={() => {
-              onClick();
+            right-3 px-1 pt-1 pb-1" id='closeButton'
+            onClick={(e) => {
+              onClick(e);
             }}
             type="button"
           >x</button>
