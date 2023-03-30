@@ -12,6 +12,9 @@ export default async function handler(req, res) {
 
     if (req.method === 'POST') {
       const result = await User.findOne({ userName: req.body.username }).exec();
+      console.log('============================');
+      console.log(result);
+      console.log('============================');
       if (result === null) {
         return res.json({ message: `Query returned no results`, result: 0 });
       } else {

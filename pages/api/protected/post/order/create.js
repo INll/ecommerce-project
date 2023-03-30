@@ -70,6 +70,9 @@ export default async function handler(req, res) {
         itemID: orderItems,
         total: req.body[2],
       })
+
+      // add this order id to user document
+      await User.updateOne({ userName: req.body[1].userName }, { $push: { orders: orderIDInt }});
       return res.status(200).json({ message: `Order ${newOrder} has been created!`, result: 1, orderID: orderID });
     } else {
       return res.status(405).json({ message: 'Invalid method', result: 0 });

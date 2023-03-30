@@ -1,14 +1,24 @@
 import React from 'react';
 
 export default function UserDetails({ userDetails }) {
-  return ( 
+  return (
     <>
-      <div className='flex flex-col sm:flex-row w-full max-w-full sm:max-w-full sm:w-auto'>
+      <div className='flex flex-col sm:flex-row w-full max-w-full sm:max-w-full sm:w-auto py-8'>
         <div className='flex flex-col grow'>
           <span className='flex justify-between text-lg'>用戶名稱: <b className='text-right text-base sm:text-lg'>{userDetails.userName}</b></span>
           <span className='flex justify-between text-lg'>注冊時間: <b className='text-right text-base sm:text-lg'>{`${userDetails.creationTime.slice(0, 10)} ${userDetails.creationTime.slice(11, 19)}`}</b></span>
           <span className='flex justify-between text-lg'>最後上線: <b className='text-right text-base sm:text-lg'>{`${userDetails.lastLogin.slice(0, 10)} ${userDetails.lastLogin.slice(11, 19)}`}</b></span>
-          <span className='flex justify-between text-lg'>訂單數量: <b className='text-right text-base sm:text-lg'>{`${Object.keys(userDetails.orders).length}`}</b></span>
+          <span className='flex justify-between text-lg'>訂單: 
+            <div className='flex flex-col'>
+              {userDetails.orders.map((id) => {
+                return (
+                  <div className="after:content-[','] last:after:hidden">
+                    <b className='text-right text-base sm:text-lg'>{id}</b>
+                  </div>
+                )
+              })}
+            </div>
+          </span>
         </div>
         <div className='grow-[2]'></div>
         <div className="flex flex-col">
