@@ -95,7 +95,7 @@ export default function OrderForm() {
               }
               {isDone
                 ? isSuccess  // can either display order details or error message
-                  ? <div className='w-[80%]'>
+                  ? <div className='w-[80%] py-8'>
                       <UserDetails userDetails={response}/>
                     </div>
                   : <div className='flex flex-col h-full w-full absolute bg-stone-800 z-10'>
