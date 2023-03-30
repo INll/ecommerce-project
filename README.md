@@ -19,6 +19,7 @@ MANSWHERE uses the **React** JavaScript library for building **user interfaces**
 Username: **testUser2**
 Password:  **TestUser!1234**
 
+<<<<<<< HEAD
 ## Dependencies
 
     "@headlessui/react": "^1.7.13",
@@ -46,9 +47,17 @@ Password:  **TestUser!1234**
 
 ## Environmental Variables
 
+=======
+## Environmental Variables
+
+>>>>>>> 57fa8f652437666b34cb6f85a894dd680efc2a3f
     MONGODB_PATH=''
     NODE_ENV=''
     SECRET=''      // signing jwt
     FIREBASE_API=''
     FIREBASE_SENDER_ID=''
+<<<<<<< HEAD
     FIREBASE_APP_ID=''
+=======
+    FIREBASE_APP_ID=''
+>>>>>>> 57fa8f652437666b34cb6f85a894dd680efc2a3f
