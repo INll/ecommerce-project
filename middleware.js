@@ -21,6 +21,17 @@ const unprotectedRoutes = [
   /^\/$/,
 ]
 
+function setValidationResult(res, result, payload) {
+  res.cookies.set({
+    name: 'validationResults',
+    value: JSON.stringify({
+      result: result,
+      user: payload
+    }),
+  });
+  return res;
+}
+
 export default async function middleware(req) {
   let token = req.cookies.get('token');
 
@@ -44,47 +55,24 @@ export default async function middleware(req) {
         const { payload } = await jose.jwtVerify(token.value, secret);
         console.log('token successfully validated!');
 
-        const response = NextResponse.next();
-        // send a cookie that describes validation result and, if successful,
-        // decoded user info in payload, to ensure after validation the client
-        // always has the same user details as when the jwt was initially signed
-        response.cookies.set({ 
-          name: 'validationResults',
-          value: JSON.stringify({  // was a JSON object, must use JSON.stringify()
-            result: 'success',
-            user: payload.payload
-          }),
-         });
-        return response;
-      } catch (err) {
+        let response = NextResponse.next();
+        return setValidationResult(response, 'success', payload.payload);
+      } catch (err) {  // jwtVerify() resolves to an error
         console.log(err);
         console.log('invalid token!');
 
         // set a non-httpOnly cookie to let client know the validation has failed, 
         // then client will erase accordingly
         req.nextUrl.pathname = '/';
-        const response = NextResponse.redirect(req.nextUrl);
-        response.cookies.set({ 
-          name: 'validationResults',
-          value: JSON.stringify({
-            result: 'failed',
-            user: false
-          }),
-         });
+        let response = NextResponse.redirect(req.nextUrl);
+        response = setValidationResult(response, 'failed', false);
         response.cookies.delete('token');
         return response;
       }
     } else if (!token) {
       console.log('no cookies');
-      const response = NextResponse.next();
-      response.cookies.set({ 
-        name: 'validationResults',
-        value: JSON.stringify({
-          result: 'signedOut',  // failed?
-          user: false
-        }),
-      });
-      return response;
+      let response = NextResponse.next();
+      return setValidationResult(response, 'failed', false);
     }
   }
 
@@ -96,15 +84,18 @@ export default async function middleware(req) {
         console.log('clearance: ' + payload.payload.clearance);
         if (payload.payload.clearance >= 0 && (payload)) {
           console.log('granted access to protected route: ' + pathname);
-          return NextResponse.next();
+          let response = NextResponse.next()
+          return setValidationResult(response, 'success', payload.payload);
         } else {
           throw new Error('Forbidden');
         }
       } catch (err) {
         console.log(err);
         req.nextUrl.pathname = '/';
-
-        return NextResponse.redirect(req.nextUrl);
+        let response = NextResponse.redirect(req.nextUrl)
+        response = setValidationResult(response, 'failed', false);
+        response.cookies.delete('token');
+        return response;
       }
     } else {
       console.log(`Redirecting: request to ${pathname} failed`);
@@ -123,15 +114,19 @@ export default async function middleware(req) {
         const { payload } = await jose.jwtVerify(token.value, secret);
         if (payload.payload.clearance > 1 && (payload)) {
           console.log('granted access to private route: ' + pathname);
-          return NextResponse.next();
+          let response = NextResponse.next();
+          return setValidationResult(response, 'success', payload.payload);
         } else {
           throw new Error('Forbidden');
         }
       } catch (err) {
         console.log(err);
         req.nextUrl.pathname = '/';
-
-        return NextResponse.redirect(req.nextUrl);
+        
+        let response = NextResponse.redirect(req.nextUrl)
+        response = setValidationResult(response, 'failed', false);
+        response.cookies.delete('token');
+        return response;
       } 
     } else {
       console.log(`Redirecting: request to ${pathname} failed`);
