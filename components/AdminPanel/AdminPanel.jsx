@@ -38,8 +38,8 @@ export default function AdminProfilePage() {
   const observe2ndSec = useRef();
   const observe3rdSec = useRef();
   
-  // -80% reduces root (viewport) to only the top 20%, prevents multiple elements being determined as isIntersecting: true
-  let observerOptions = { rootMargin: '0px 0px -80% 0px', threshold: 0}
+  // toggle true when element hits top 22% of vh
+  let observerOptions = { rootMargin: '0px 0px -78% 0px', threshold: 0}
 
   const username = session.user.userName;
 
