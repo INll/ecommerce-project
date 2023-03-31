@@ -1,5 +1,5 @@
-## Stack
-MANSWHERE uses the **React** JavaScript library for building **user interfaces** and depends on **Next.js** for development. Backend relies on **Next.js API**, **Firebase** for **image** hosting and **MongoDB** for regular data
+## Description
+MANSWHERE uses the **React** JavaScript library for building **user interfaces** and depends on **Next.js** for development. Backend relies on **Next.js API**, **Firebase** for **image** hosting and **MongoDB** for regular data.
 
 ## Features (Regular)
 - **Fully responsive**, **role-dependent** pages.
@@ -50,7 +50,7 @@ Password:  **TestUser!1234**
     "react-scroll": "^1.8.8",
     "yup": "^0.32.11"
 
-## Environmental Variables
+## Environment variables
 
     MONGODB_PATH=''
     NODE_ENV=''
