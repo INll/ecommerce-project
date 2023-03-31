@@ -97,7 +97,7 @@ export default function ItemPage({ itemID }) {
             <img src={`${data?.data.images.url}`} alt={`Image of ${data?.data.images.title}`}
               className='rounded-lg bg-neutral bg-zinc-600/20 w-full h-auto sm:w-[40%] sm:mt-4'
             />
-            <div className='sm:flex-col'>
+            <div className='sm:flex-col w-full'>
               <div className='py-3 tracking-wider text-2xl w-full'>{data?.data.title}</div>
               <div className='pr-3 flex items-end justify-end w-full'>
               <span className='pb-2'>港幣&nbsp;&nbsp;</span>
@@ -106,7 +106,7 @@ export default function ItemPage({ itemID }) {
               </div>
               {data?.data.description.length < 110
               ? ( 
-                  <div className='relative py-3 tracking-wider h-fit overflow-hidden w-full'>
+                  <div className='relative py-3 tracking-wider h-fit overflow-hidden w-full break-all'>
                     {data?.data.description}
                   </div>
                 )

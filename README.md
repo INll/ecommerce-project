@@ -1,5 +1,5 @@
 ## Stack
-MANSWHERE uses the **React** JavaScript library for building **user interfaces** and depends on **Next.js** for development. Backend relies on **Next.js API**, **Firebase** for **image** hosting and **MongoDB** regular data
+MANSWHERE uses the **React** JavaScript library for building **user interfaces** and depends on **Next.js** for development. Backend relies on **Next.js API**, **Firebase** for **image** hosting and **MongoDB** for regular data
 
 ## Features (Regular)
 - **Fully responsive**, **role-dependent** pages.
