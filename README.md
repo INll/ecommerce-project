@@ -23,6 +23,8 @@ MANSWHERE uses the **React** JavaScript library for building **user interfaces**
 Username: **testUser2**
 Password:  **TestUser!1234**
 
+[Try the demo!](https://ecommerce-project-inll.vercel.app/)
+
 ## Dependencies
 
     "@headlessui/react": "^1.7.13",
