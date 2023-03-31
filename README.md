@@ -9,10 +9,14 @@ MANSWHERE uses the **React** JavaScript library for building **user interfaces**
 - **Session-based** shopping **cart**.
 - **Order creation**, viewing **recent orders** , wishlisting
 
+![](https://github.com/INll/ecommerce-project/blob/main/regular.gif)
+
 ## Features (Administrator)
 - Shop **item creation**, with image support.
 - **User**, **order** **querying** by IDs.
 - Live statistic preview
+
+![](https://github.com/INll/ecommerce-project/blob/main/admin.gif)
 
 ## Demo account (or register your own!)
 
