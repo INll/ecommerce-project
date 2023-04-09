@@ -93,10 +93,15 @@ export default function ItemPage({ itemID }) {
         }
       <div className='max-w-full lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl bg-neutral-800/80 lg:rounded-md xl:rounded-xl mx-auto px-8 sm:px-12 md:px-20 lg:px-20 xl:px-24 pt-8 pb-14 sm:py-[4.6rem]'>
         <div className='flex flex-col'>
-          <div className='flex flex-col items-center gap-3 sm:flex-row sm:gap-10 sm:items-start'>
-            <img src={`${data?.data.images.url}`} alt={`Image of ${data?.data.images.title}`}
-              className='rounded-lg bg-neutral bg-zinc-600/20 w-full h-auto sm:w-[40%] sm:mt-4'
-            />
+          <div className='flex flex-col items-center gap-3 sm:flex-row sm:gap-10 sm:h-full sm:items-start'>
+            {data?.data.images
+              ? <img src={`${data?.data.images.url}`} alt={`Image of ${data?.data.images.title}`} className='rounded-lg bg-neutral bg-zinc-600/20 w-full h-auto sm:w-[40%] sm:mt-4' />
+              : <div className="flex w-full h-full justify-center object-cover py-[5%]">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-[20%]">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                  </svg>
+                </div>
+            }
             <div className='sm:flex-col w-full'>
               <div className='py-3 tracking-wider text-2xl w-full'>{data?.data.title}</div>
               <div className='pr-3 flex items-end justify-end w-full'>

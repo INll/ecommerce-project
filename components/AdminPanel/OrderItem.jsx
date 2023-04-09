@@ -12,7 +12,14 @@ export default function OrderItem({ item, orderDetails, colSpan }) {
         onClick={() => router.push(`/item/${item._id}`)}
       >
         {/* img tag determines height, negative margin compensates border-2 */}
-        <img className={`h-28 w-full -my-[2px] object-contain sm:object-cover rounded-t-[0.275rem] sm:rounded-tr-none sm:rounded-l-[0.275rem] sm:ml-[2px] sm:col-span-3`} id={item._id} src={item.images.url} alt={`Image of ${item.title}`}/>
+        {item.images
+          ? <img className={`h-28 w-full -my-[2px] object-contain sm:object-cover rounded-t-[0.275rem] sm:rounded-tr-none sm:rounded-l-[0.275rem] sm:ml-[2px] sm:col-span-3`} id={item._id} src={item.images.url} alt={`Image of ${item.title}`}/>
+          : <div className='h-28 w-full'>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                </svg>
+            </div>
+        }
         <div className={`sm:col-span-5 sm:w-full px-[8%] pt-[6%] text-left sm:text-center sm:px-8 sm:pt-0`}>
           <div className='sm:hidden text-gray-300'><i><u>名稱</u></i></div>
           <div className='font-bold sm:font-normal mb-2 sm:mb-0'>{item.title}</div>
